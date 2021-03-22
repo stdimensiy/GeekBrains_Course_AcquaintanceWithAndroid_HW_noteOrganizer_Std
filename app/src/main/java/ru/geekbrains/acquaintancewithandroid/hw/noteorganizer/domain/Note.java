@@ -1,4 +1,4 @@
-package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer;
+package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
 import java.util.Calendar;
 
