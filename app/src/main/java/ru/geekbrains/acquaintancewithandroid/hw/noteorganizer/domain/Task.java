@@ -7,6 +7,16 @@ public class Task extends Note {
     private boolean isChecked;     // состояние флажка задачи (отмечено или нет)
     private boolean isHaveContent; // признак наличия в задаче не только наименования но и содержания.
 
+    public Task(){
+
+    }
+
+    public Task(String title, String content, boolean isChecked, boolean isHaveContent) {
+        super(title, content);
+        this.isChecked = isChecked;
+        this.isHaveContent = isHaveContent;
+    }
+
     public long getAlarmDate() {
         return alarmDate;
     }
