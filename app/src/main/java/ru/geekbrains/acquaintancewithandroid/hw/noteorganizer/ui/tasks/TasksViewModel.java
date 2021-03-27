@@ -4,16 +4,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TasksRepository;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TestTasksRepository;
+
 public class TasksViewModel extends ViewModel {
+    private final TasksRepository tasksRepository = TestTasksRepository.INSTANCE;
+    private MutableLiveData<ArrayList<Task>> tasksLiveData = new MutableLiveData<>();
 
-    private MutableLiveData<String> mText;
-
-    public TasksViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("Это фрагмент для задач.");
+    public LiveData<ArrayList<Task>> getTasksLiveData() {
+        return tasksLiveData;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void fetchTasks() {
+        tasksLiveData.setValue(tasksRepository.getTasks());
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }

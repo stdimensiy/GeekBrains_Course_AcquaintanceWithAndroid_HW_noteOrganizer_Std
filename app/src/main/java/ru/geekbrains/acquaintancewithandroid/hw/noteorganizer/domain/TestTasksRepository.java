@@ -2,12 +2,12 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
 import java.util.ArrayList;
 
-public class TestTasksRepository implements TasksRepository{
-    private static final TestTasksRepository INSTANCE = new TestTasksRepository();
+public class TestTasksRepository implements TasksRepository {
+    public static final TestTasksRepository INSTANCE = new TestTasksRepository();
     ArrayList<Task> tasks = new ArrayList<>();
 
-    private TestTasksRepository (){
-
+    private TestTasksRepository() {
+        firstIncrement(tasks);
     }
 
     private void firstIncrement(ArrayList<Task> tasks) {
