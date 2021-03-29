@@ -3,4 +3,10 @@
     <string name="title_notes">Заметки</string>
     <string name="title_tasks">Задачи</string>
     <string name="title_settings">Настройки</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Веремеенко Дмитрий</string>
+    <string name="nav_header_subtitle">StDimensiy@yandex.ru</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

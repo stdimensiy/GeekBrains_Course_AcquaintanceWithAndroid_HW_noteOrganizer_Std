@@ -14,6 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
@@ -53,6 +56,15 @@ public class NotesFragment extends Fragment {
                 adapter.clear();                 // зачистка старого состояния адаптера
                 adapter.addItems(notes);         // загружаем новые данные
                 adapter.notifyDataSetChanged();  // командуем полностью перерисовать вьюшку
+            }
+        });
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Плавающая кнопка добавления новой замметки нажата!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
     }
