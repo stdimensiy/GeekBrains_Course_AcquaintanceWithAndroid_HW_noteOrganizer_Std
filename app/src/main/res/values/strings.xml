@@ -9,4 +9,11 @@
     <string name="nav_header_subtitle">StDimensiy@yandex.ru</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="whiteTheme">Светлая тема</string>
+    <string name="nightTheme">Темная тема</string>
+    <string name="groupName_optional">Дополнительно</string>
+    <string name="nameMenuItem_accaunt">Учетная запись</string>
+    <string name="nameMenuItem_authorized">Авторизация</string>
+    <string name="menuItemOptional_calculator">Калькулятор</string>
+    <string name="menuItemOptional_criticism">Отзывы</string>
 </resources>

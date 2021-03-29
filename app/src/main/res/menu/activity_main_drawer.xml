@@ -20,24 +20,24 @@
             android:title="@string/title_settings" />
     </group>
 
-    <item android:title="Дополнительно">
+    <item android:title="@string/groupName_optional">
         <menu>
             <item
                 android:id="@+id/nav_accaunt"
                 android:icon="@drawable/ic_manage_account_black_24dp"
-                android:title="Учетная запись" />
+                android:title="@string/nameMenuItem_accaunt" />
             <item
                 android:id="@+id/nav_authorized"
                 android:icon="@drawable/ic_auth_black_24dp"
-                android:title="Авторизация" />
+                android:title="@string/nameMenuItem_authorized" />
             <item
                 android:id="@+id/nav_openСalculate"
                 android:icon="@drawable/ic_calculate_black_24dp"
-                android:title="Калькулятор" />
+                android:title="@string/menuItemOptional_calculator" />
             <item
                 android:id="@+id/nav_criticism"
                 android:icon="@drawable/ic_add_critic_note_black_24dp"
-                android:title="Отзывы" />
+                android:title="@string/menuItemOptional_criticism" />
         </menu>
     </item>
 </menu>
