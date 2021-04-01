@@ -6,21 +6,30 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.CallBack;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.NotesRepository;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TestNotesRepository;
 
 public class NotesViewModel extends ViewModel {
 
-    private final NotesRepository notesRepository = TestNotesRepository.INSTANCE;
+    private final NotesRepository notesRepository;
     private MutableLiveData<ArrayList<Note>> notesLiveData = new MutableLiveData<>();
+
+    public NotesViewModel(NotesRepository notesRepository) {
+        this.notesRepository = notesRepository;
+    }
 
     public LiveData<ArrayList<Note>> getNotesLiveData() {
         return notesLiveData;
     }
 
     public void fetchNotes() {
-        notesLiveData.setValue(notesRepository.getNotes());
+        notesRepository.getNotes(new CallBack<ArrayList<Note>>() {
+            @Override
+            public void onResult(ArrayList<Note> value) {
+                notesLiveData.postValue(value);
+            }
+        });
     }
 
     @Override

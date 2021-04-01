@@ -28,7 +28,7 @@ public class NotesFragment extends Fragment {
     private NotesAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        notesViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
+        notesViewModel = new ViewModelProvider(this, new NotesViewModelFactory()).get(NotesViewModel.class);
         notesViewModel.fetchNotes();
         adapter = new NotesAdapter();
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {

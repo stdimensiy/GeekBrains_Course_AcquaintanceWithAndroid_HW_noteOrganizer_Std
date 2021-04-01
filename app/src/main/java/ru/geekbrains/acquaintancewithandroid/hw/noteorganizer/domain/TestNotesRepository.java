@@ -19,8 +19,8 @@ public class TestNotesRepository implements NotesRepository {
     }
 
     @Override
-    public ArrayList<Note> getNotes() {
-        return notes;
+    public void getNotes(CallBack<ArrayList<Note>> callBack) {
+        callBack.onResult(notes);
     }
 
     @Override
