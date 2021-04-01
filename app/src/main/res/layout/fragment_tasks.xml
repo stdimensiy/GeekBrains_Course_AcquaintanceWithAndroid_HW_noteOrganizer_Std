@@ -20,4 +20,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/tasks_list"
         app:layout_constraintEnd_toEndOf="@+id/tasks_list"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ProgressBar
+        android:id="@+id/tasksProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tasks_list"
+        app:layout_constraintEnd_toEndOf="@+id/tasks_list"
+        app:layout_constraintStart_toStartOf="@+id/tasks_list"
+        app:layout_constraintTop_toTopOf="@+id/tasks_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

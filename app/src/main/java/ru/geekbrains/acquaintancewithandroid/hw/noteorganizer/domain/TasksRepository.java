@@ -3,7 +3,7 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 import java.util.ArrayList;
 
 public interface TasksRepository {
-    ArrayList<Task> getTasks();
+    void getTasks(CallBack<ArrayList<Task>> callBack);
 
     void addTask(String title);
 
