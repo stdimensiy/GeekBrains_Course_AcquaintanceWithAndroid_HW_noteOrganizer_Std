@@ -14,6 +14,7 @@ public class NotesViewModel extends ViewModel {
 
     private final NotesRepository notesRepository;
     private MutableLiveData<ArrayList<Note>> notesLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> notesProgressBarLiveData = new MutableLiveData<>();
 
     public NotesViewModel(NotesRepository notesRepository) {
         this.notesRepository = notesRepository;
@@ -23,11 +24,19 @@ public class NotesViewModel extends ViewModel {
         return notesLiveData;
     }
 
+    public LiveData<Boolean> getNotesProgressBarLiveData() {
+        return notesProgressBarLiveData;
+    }
+
     public void fetchNotes() {
+        //СТАРТ показа прогресс-бара
+        notesProgressBarLiveData.setValue(true);
         notesRepository.getNotes(new CallBack<ArrayList<Note>>() {
             @Override
             public void onResult(ArrayList<Note> value) {
                 notesLiveData.postValue(value);
+                //СТОП показа прогресс-бара
+                notesProgressBarLiveData.setValue(false);
             }
         });
     }

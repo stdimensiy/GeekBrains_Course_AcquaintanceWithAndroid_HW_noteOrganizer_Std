@@ -21,4 +21,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/notes_list"
         app:layout_constraintEnd_toEndOf="@+id/notes_list"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ProgressBar
+        android:id="@+id/notesProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/notes_list"
+        app:layout_constraintEnd_toEndOf="@+id/notes_list"
+        app:layout_constraintStart_toStartOf="@+id/notes_list"
+        app:layout_constraintTop_toTopOf="@+id/notes_list" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

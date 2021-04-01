@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,8 @@ public class NotesFragment extends Fragment {
         RecyclerView notesRecyclerView = view.findViewById(R.id.notes_list);
         notesRecyclerView.setAdapter(adapter);  // подключаем адаптер и ниже сразу менеджер размещения
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        //подключаем прогрессбар (круговой)
+        ProgressBar progressBar = view.findViewById(R.id.notesProgressBar);
         //получаем лайвдату с заметками и начинаем наблюдать за ней
         notesViewModel.getNotesLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Note>>() {
             @Override
@@ -56,6 +59,17 @@ public class NotesFragment extends Fragment {
                 adapter.clear();                 // зачистка старого состояния адаптера
                 adapter.addItems(notes);         // загружаем новые данные
                 adapter.notifyDataSetChanged();  // командуем полностью перерисовать вьюшку
+            }
+        });
+        //получаем лайвдату прогресс-бара (фрагмента списка заметок) и начинаем наблюдать за ним
+        notesViewModel.getNotesProgressBarLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isVisible) {
+                if (isVisible) {  // если прогресс должен быть виден отображаем
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {        // когда он  не должен быть виден закрываем полностью.
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
 
