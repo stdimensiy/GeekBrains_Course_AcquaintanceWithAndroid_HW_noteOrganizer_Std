@@ -1,11 +1,18 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class TestNotesRepository implements NotesRepository {
     public static final TestNotesRepository INSTANCE = new TestNotesRepository();
-
-    ArrayList<Note> notes = new ArrayList<>();
+    private static final int pause = 2000; // временная пауза в миллисекундах
+    private final Executor executor = Executors.newCachedThreadPool();
+    private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    private ArrayList<Note> notes = new ArrayList<>();
 
     private TestNotesRepository() {
         firstIncrement(notes);
@@ -20,7 +27,23 @@ public class TestNotesRepository implements NotesRepository {
 
     @Override
     public void getNotes(CallBack<ArrayList<Note>> callBack) {
-        callBack.onResult(notes);
+        //создаю временную задержку (для теста) на базе потока
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(pause);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mainThreadHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(notes);
+                    }
+                });
+            }
+        });
     }
 
     @Override
