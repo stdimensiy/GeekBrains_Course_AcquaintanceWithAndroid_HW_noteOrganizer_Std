@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
@@ -72,18 +73,18 @@ public class EditNoteFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                viewModel.validateInput(s.toString());
             }
         });
 
         editTitle.setText(note.getTitle()); // заполняем поле заголовка заметки текущим значением заголовка заметки
 
-//        buttonSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                viewModel.saveNote(editTitle.getText(), note);
-//            }
-//        });
-
+        //подписываем на событие "сохранение разрешено"
+        viewModel.getSaveEnabled().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                buttonSave.setEnabled(aBoolean);
+            }
+        });
     }
 }

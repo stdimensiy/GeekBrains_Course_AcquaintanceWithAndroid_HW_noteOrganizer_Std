@@ -29,4 +29,8 @@ public class EditNoteViewModel extends ViewModel {
     public LiveData<Object> getSaveSucceed() {
         return saveSucceed;
     }
+
+    public void validateInput(String newTitle) {
+        saveEnabled.setValue(!newTitle.isEmpty()); // первая проверка, если заголовок заметки не пустой.
+    }
 }
