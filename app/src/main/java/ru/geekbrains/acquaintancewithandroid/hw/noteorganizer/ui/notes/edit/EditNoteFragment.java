@@ -22,6 +22,8 @@ import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 public class EditNoteFragment extends Fragment {
     public static final String TAG = "EditNoteFragment";
     public static final String ARG_NOTE = "ARG_NOTE";
+    private Note note;
+    private EditNoteViewModel viewModel;
 
     public static EditNoteFragment newInstance (Note note){
         EditNoteFragment fragment = new EditNoteFragment();
@@ -32,11 +34,10 @@ public class EditNoteFragment extends Fragment {
         return fragment;
     }
 
-    private EditNoteViewModel viewModel;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        note = getArguments().getParcelable(ARG_NOTE);
         viewModel = new ViewModelProvider(this, new EditNoteViewModelFactory()).get(EditNoteViewModel.class);
     }
 
@@ -53,7 +54,7 @@ public class EditNoteFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().onBackPressed();
+                requireActivity().onBackPressed(); // по кнопке "назад" быстрый выход из режима редактирования без сохранения
             }
         });
         Button buttonSave = view.findViewById(R.id.edit_note_btn_save);
@@ -74,6 +75,8 @@ public class EditNoteFragment extends Fragment {
 
             }
         });
+
+        editTitle.setText(note.getTitle()); // заполняем поле заголовка заметки текущим значением заголовка заметки
 
 //        buttonSave.setOnClickListener(new View.OnClickListener() {
 //            @Override
