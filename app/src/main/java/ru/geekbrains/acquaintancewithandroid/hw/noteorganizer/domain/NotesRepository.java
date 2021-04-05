@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public interface NotesRepository {
     void getNotes(CallBack<ArrayList<Note>> callBack);
 
-    void addNote(String title);
+    void addNewTestNote(CallBack<Note> noteCallBack);
 
-    void deleteNote(int index);
+    void deleteNote(Note note, CallBack<Note> noteCallBack);
+
+    void clearAllNotes(CallBack<Object> voidCallBack);
 }

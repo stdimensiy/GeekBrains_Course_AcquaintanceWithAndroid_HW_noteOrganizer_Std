@@ -9,7 +9,12 @@
         android:id="@+id/navigation_notes"
         android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.NotesFragment"
         android:label="@string/title_notes"
-        tools:layout="@layout/fragment_notes" />
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_navigation_notes_to_editNoteFragment"
+            app:destination="@id/editNoteFragment"
+            app:popUpTo="@id/editNoteFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_tasks"
@@ -22,4 +27,12 @@
         android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/editNoteFragment"
+        android:label="EditNoteFragment">
+        <action
+            android:id="@+id/action_editNoteFragment_to_navigation_notes"
+            app:destination="@id/navigation_notes"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

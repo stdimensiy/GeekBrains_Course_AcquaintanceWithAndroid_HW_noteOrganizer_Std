@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/grp1">
+        <item
+            android:id="@+id/action_new_task"
+            android:orderInCategory="100"
+            android:title="Новая задача"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_new_type"
+            android:orderInCategory="100"
+            android:title="Новый тип"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="100"
+            android:title="Настройки"
+            app:showAsAction="never" />
+    </group>
+    <item
+        android:id="@+id/action_help"
+        android:orderInCategory="100"
+        android:title="Инструкция"
+        app:showAsAction="never" />
+</menu>
