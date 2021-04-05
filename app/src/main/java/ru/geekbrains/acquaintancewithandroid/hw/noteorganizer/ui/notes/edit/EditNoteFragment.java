@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,14 +26,26 @@ public class EditNoteFragment extends Fragment {
     public static final String ARG_NOTE = "ARG_NOTE";
     private Note note;
     private EditNoteViewModel viewModel;
+    private OnNoteSaved listener;
 
-    public static EditNoteFragment newInstance (Note note){
+    public static EditNoteFragment newInstance(Note note) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE, note);
 
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
@@ -60,6 +73,13 @@ public class EditNoteFragment extends Fragment {
         });
         Button buttonSave = view.findViewById(R.id.edit_note_btn_save);
         EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
+        buttonSave.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.saveNote(editTitle.getText(), note);
+            }
+        }));
+
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,5 +106,32 @@ public class EditNoteFragment extends Fragment {
                 buttonSave.setEnabled(aBoolean);
             }
         });
+
+        //подписываем на событие Прогессбара
+        ProgressBar progressBar = view.findViewById(R.id.editNotesProgressBar);
+        viewModel.getProgress().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        viewModel.getSaveSucceed().observe(getViewLifecycleOwner(), new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                // Сигнал об успешном сохранении данных
+                if (listener != null){
+                    listener.onNoteSaved();
+                }
+            }
+        });
+    }
+
+    public interface OnNoteSaved {
+        void onNoteSaved();
     }
 }

@@ -10,4 +10,7 @@ public interface NotesRepository {
     void deleteNote(Note note, CallBack<Note> noteCallBack);
 
     void clearAllNotes(CallBack<Object> voidCallBack);
+
+    void updateNote(Note note, CallBack<Object> objectCallBack);
+
 }

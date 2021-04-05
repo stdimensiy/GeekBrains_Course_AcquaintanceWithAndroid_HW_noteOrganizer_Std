@@ -23,7 +23,7 @@ import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.NotesFragment;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit.EditNoteFragment;
 
-public class MainActivity extends AppCompatActivity implements NotesFragment.OnNoteSelected {
+public class MainActivity extends AppCompatActivity implements NotesFragment.OnNoteSelected, EditNoteFragment.OnNoteSaved {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -74,5 +74,10 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.OnN
                 .addToBackStack(EditNoteFragment.TAG)
                 .commit();
         //Toast.makeText(this, fragmentManager.getFragments().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNoteSaved() {
+
     }
 }

@@ -1,30 +1,32 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit;
 
+import android.text.Editable;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.CallBack;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.NotesRepository;
 
 public class EditNoteViewModel extends ViewModel {
     private NotesRepository repository;
+    private MutableLiveData<Boolean> progress = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> saveEnabled = new MutableLiveData<>(false);
+    private MutableLiveData<Object> saveSucceed = new MutableLiveData<>();
 
     public EditNoteViewModel(NotesRepository repository) {
         this.repository = repository;
     }
 
-    private MutableLiveData<Boolean> progress = new MutableLiveData<>(false);
-
     public LiveData<Boolean> getProgress() {
         return progress;
     }
-    private MutableLiveData<Boolean> saveEnabled = new MutableLiveData<>(false);
 
     public LiveData<Boolean> getSaveEnabled() {
         return saveEnabled;
     }
-
-    private MutableLiveData<Object> saveSucceed = new MutableLiveData<>();
 
     public LiveData<Object> getSaveSucceed() {
         return saveSucceed;
@@ -32,5 +34,31 @@ public class EditNoteViewModel extends ViewModel {
 
     public void validateInput(String newTitle) {
         saveEnabled.setValue(!newTitle.isEmpty()); // первая проверка, если заголовок заметки не пустой.
+    }
+
+    public void saveNote(Editable text, Note note) {
+        note.setTitle(text.toString()); // передаем как есть из поля редактирования в элемент
+        //СТАРТ показа прогресс-бара
+        progress.setValue(true);
+        repository.updateNote(note, new CallBack<Object>() {
+            @Override
+            public void onResult(Object value) {
+                //СТОП показа прогресс-бара
+                progress.setValue(false);
+                saveSucceed.setValue(new Object());
+
+
+//                //СТАРТ показа прогресс-бара
+//                notesProgressBarLiveData.setValue(true);
+//                notesRepository.getNotes(new CallBack<ArrayList<Note>>() {
+//                    @Override
+//                    public void onResult(ArrayList<Note> value) {
+//                        notesLiveData.postValue(value);
+//                        //СТОП показа прогресс-бара
+//                        notesProgressBarLiveData.setValue(false);
+//                    }
+//                });
+            }
+        });
     }
 }

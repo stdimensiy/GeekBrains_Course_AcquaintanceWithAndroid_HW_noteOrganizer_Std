@@ -118,4 +118,9 @@ public class TestNotesRepository implements NotesRepository {
         });
     }
 
+    @Override
+    public void updateNote(Note note, CallBack<Object> objectCallBack) {
+
+    }
+
 }
