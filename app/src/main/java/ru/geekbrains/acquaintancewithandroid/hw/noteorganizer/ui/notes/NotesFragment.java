@@ -38,10 +38,16 @@ public class NotesFragment extends Fragment implements Pluggable {
     private OnNoteSelected listener;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        notesViewModel.fetchNotes();
+    }
+
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if(context instanceof OnNoteSelected){
+        if (context instanceof OnNoteSelected) {
             listener = (OnNoteSelected) context;
         }
     }
@@ -66,7 +72,7 @@ public class NotesFragment extends Fragment implements Pluggable {
             @Override
             public void onNoteClicked(Note note) {
                 // реализуем единую форму для просмотра заметки и для ее редактирования при необходимости
-                if(listener != null){
+                if (listener != null) {
                     listener.onNoteSelected(note);
                 }
                 //Toast.makeText(requireContext(), note.getTitle(), Toast.LENGTH_SHORT).show();
@@ -197,8 +203,7 @@ public class NotesFragment extends Fragment implements Pluggable {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete_note) {
-            notesViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition),contextMenuItemPosition);
-            //Pluggable.ToastPlug(requireContext(), "Команда удаления заметки на позиции №" + contextMenuItemPosition);
+            notesViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
         }
         return super.onContextItemSelected(item);
     }

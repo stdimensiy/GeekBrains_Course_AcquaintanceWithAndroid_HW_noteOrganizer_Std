@@ -40,11 +40,14 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
+        if(context instanceof OnNoteSaved){
+            listener = (OnNoteSaved) context;
+        }
     }
 
     @Override
     public void onDetach() {
+        listener = null;
         super.onDetach();
     }
 

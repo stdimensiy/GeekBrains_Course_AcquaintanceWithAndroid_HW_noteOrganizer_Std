@@ -78,6 +78,6 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.OnN
 
     @Override
     public void onNoteSaved() {
-
+        getSupportFragmentManager().popBackStack();
     }
 }

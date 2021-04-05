@@ -46,18 +46,6 @@ public class EditNoteViewModel extends ViewModel {
                 //СТОП показа прогресс-бара
                 progress.setValue(false);
                 saveSucceed.setValue(new Object());
-
-
-//                //СТАРТ показа прогресс-бара
-//                notesProgressBarLiveData.setValue(true);
-//                notesRepository.getNotes(new CallBack<ArrayList<Note>>() {
-//                    @Override
-//                    public void onResult(ArrayList<Note> value) {
-//                        notesLiveData.postValue(value);
-//                        //СТОП показа прогресс-бара
-//                        notesProgressBarLiveData.setValue(false);
-//                    }
-//                });
             }
         });
     }

@@ -120,7 +120,25 @@ public class TestNotesRepository implements NotesRepository {
 
     @Override
     public void updateNote(Note note, CallBack<Object> objectCallBack) {
-
+        //notes.add(new Note(title, "Тело новой заметки."));
+        executor.execute((new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(pause/4);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mainThreadHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Note note = new Note("тестовый заголовок", "Тело новой тестовой заметки.");
+                        notes.add(note);
+                        objectCallBack.onResult(new Object());
+                    }
+                });
+            }
+        }));
     }
 
 }
