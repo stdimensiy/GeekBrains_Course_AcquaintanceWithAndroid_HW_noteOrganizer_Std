@@ -103,7 +103,7 @@ public class EditNoteFragment extends Fragment {
         editTitle.setText(note.getTitle()); // заполняем поле заголовка заметки текущим значением заголовка заметки
 
         //подписываем на событие "сохранение разрешено"
-        viewModel.getSaveEnabled().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        viewModel.getSaveEnabledLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 buttonSave.setEnabled(aBoolean);
@@ -112,7 +112,7 @@ public class EditNoteFragment extends Fragment {
 
         //подписываем на событие Прогессбара
         ProgressBar progressBar = view.findViewById(R.id.editNotesProgressBar);
-        viewModel.getProgress().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        viewModel.getProgressLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
@@ -123,7 +123,7 @@ public class EditNoteFragment extends Fragment {
             }
         });
 
-        viewModel.getSaveSucceed().observe(getViewLifecycleOwner(), new Observer<Object>() {
+        viewModel.getSaveSucceedLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 // Сигнал об успешном сохранении данных

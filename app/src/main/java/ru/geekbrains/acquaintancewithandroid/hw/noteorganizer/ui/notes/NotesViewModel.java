@@ -19,16 +19,16 @@ public class NotesViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<Note>> notesLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> notesProgressBarLiveData = new MutableLiveData<>();
 
+    public NotesViewModel(NotesRepository notesRepository) {
+        this.notesRepository = notesRepository;
+    }
+
     public MutableLiveData<Integer> getDeleteNotePositionLiveData() {
         return deleteNotePositionLiveData;
     }
 
     public LiveData<Note> getNewNoteAddedLiveData() {
         return newNoteAddedLiveData;
-    }
-
-    public NotesViewModel(NotesRepository notesRepository) {
-        this.notesRepository = notesRepository;
     }
 
     public LiveData<ArrayList<Note>> getNotesLiveData() {
