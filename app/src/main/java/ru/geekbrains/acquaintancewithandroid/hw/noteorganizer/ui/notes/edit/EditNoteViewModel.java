@@ -16,6 +16,7 @@ public class EditNoteViewModel extends ViewModel {
     private final MutableLiveData<Boolean> saveEnabledLiveData = new MutableLiveData<>(false);
     private final MutableLiveData<Object> saveSucceedLiveData = new MutableLiveData<>();
 
+    // конструктор принимает репозиторий (при замене репозитория менять в классе фабрики)
     public EditNoteViewModel(NotesRepository repository) {
         this.repository = repository;
     }
@@ -32,10 +33,14 @@ public class EditNoteViewModel extends ViewModel {
         return saveSucceedLiveData;
     }
 
+    // логика валидации вводимых данных
+    // 1 вариант - просто непустая строка
+    // 2 вариант (в разработке) проверить, если данные не изменены кнопку не активировать.
     public void validateInput(String newTitle) {
         saveEnabledLiveData.setValue(!newTitle.isEmpty()); // первая проверка, если заголовок заметки не пустой.
     }
 
+    //Логика сохранения измененных данных
     public void saveNote(Editable text, Note note) {
         note.setTitle(text.toString()); // передаем как есть из поля редактирования в элемент
         //СТАРТ показа прогресс-бара

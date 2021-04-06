@@ -1,4 +1,4 @@
-package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui;
+package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
 import android.content.Context;
 import android.widget.Toast;

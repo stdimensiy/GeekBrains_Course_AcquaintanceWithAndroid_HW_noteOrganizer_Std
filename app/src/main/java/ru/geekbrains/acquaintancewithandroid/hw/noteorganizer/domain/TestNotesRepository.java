@@ -120,7 +120,6 @@ public class TestNotesRepository implements NotesRepository {
 
     @Override
     public void updateNote(Note note, CallBack<Object> objectCallBack) {
-        //notes.add(new Note(title, "Тело новой заметки."));
         executor.execute((new Runnable() {
             @Override
             public void run() {
@@ -132,13 +131,13 @@ public class TestNotesRepository implements NotesRepository {
                 mainThreadHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Note note = new Note("тестовый заголовок", "Тело новой тестовой заметки.");
-                        notes.add(note);
+                        //модуль подстановки новых значений
+                        Note editNote = notes.get(notes.indexOf(note));
+                        note.setTitle(editNote.getTitle());
                         objectCallBack.onResult(new Object());
                     }
                 });
             }
         }));
     }
-
 }

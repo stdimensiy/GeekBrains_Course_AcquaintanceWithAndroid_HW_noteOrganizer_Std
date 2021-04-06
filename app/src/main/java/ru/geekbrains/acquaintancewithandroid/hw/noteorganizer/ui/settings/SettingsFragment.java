@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.Pluggable;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Pluggable;
 
 public class SettingsFragment extends Fragment {
 

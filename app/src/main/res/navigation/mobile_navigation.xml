@@ -11,9 +11,8 @@
         android:label="@string/title_notes"
         tools:layout="@layout/fragment_notes" >
         <action
-            android:id="@+id/action_navigation_notes_to_editNoteFragment"
-            app:destination="@id/editNoteFragment"
-            app:popUpTo="@id/editNoteFragment" />
+            android:id="@+id/action_navigation_notes_to_newEditNoteFragment"
+            app:destination="@id/EditNoteFragment" />
     </fragment>
 
     <fragment
@@ -28,11 +27,15 @@
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/editNoteFragment"
-        android:label="EditNoteFragment">
+        android:id="@+id/EditNoteFragment"
+        android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit.EditNoteFragment"
+        android:label="Редактирование заметки"
+        tools:layout="@layout/fragment_edit_note" >
         <action
-            android:id="@+id/action_editNoteFragment_to_navigation_notes"
-            app:destination="@id/navigation_notes"
-            app:launchSingleTop="true" />
+            android:id="@+id/action_EditNoteFragment_to_navigation_notes"
+            app:destination="@id/navigation_notes" />
+        <argument
+            android:name="note"
+            app:argType="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note" />
     </fragment>
 </navigation>
