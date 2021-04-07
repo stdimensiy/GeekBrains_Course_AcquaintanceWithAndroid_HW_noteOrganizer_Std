@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "35295916762",
+    "project_id": "noteorganizer-hw-vdv-gb",
+    "storage_bucket": "noteorganizer-hw-vdv-gb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35295916762:android:da72fda59b03c4a6852be3",
+        "android_client_info": {
+          "package_name": "ru.geekbrains.acquaintancewithandroid.hw.noteorganizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35295916762-0nbeim5158np4fpr689iu0qsimelgbv7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.geekbrains.acquaintancewithandroid.hw.noteorganizer",
+            "certificate_hash": "c07282c9cae608fa703a0c737ffc83980348b199"
+          }
+        },
+        {
+          "client_id": "35295916762-eh9r7i3nr4nsaor89so34nfbdkkhvt7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.geekbrains.acquaintancewithandroid.hw.noteorganizer",
+            "certificate_hash": "cbf1deecbcf9c57569205100a8c0d1d1e3747a87"
+          }
+        },
+        {
+          "client_id": "35295916762-qbjllp9icipdh9tcd79c75reboig4cug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpScr68iLMShjrUGoPfEg_9gFKlC7D62k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35295916762-qbjllp9icipdh9tcd79c75reboig4cug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

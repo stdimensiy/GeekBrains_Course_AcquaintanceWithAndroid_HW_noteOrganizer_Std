@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Note implements Parcelable {
+    public String id;                   //уникальный идентификатор записи
     private String title;               //заголовок заметки
     private String content;             //содержимое заметки
     private long createDate;            //дата и время создания заметки
@@ -66,6 +67,14 @@ public class Note implements Parcelable {
 
     public void setMarked(boolean marked) {
         this.marked = marked;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

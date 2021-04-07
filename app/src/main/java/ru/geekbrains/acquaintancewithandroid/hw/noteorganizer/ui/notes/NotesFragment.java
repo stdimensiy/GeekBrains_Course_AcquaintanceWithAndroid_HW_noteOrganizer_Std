@@ -66,7 +66,7 @@ public class NotesFragment extends Fragment implements Pluggable {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         notesViewModel = new ViewModelProvider(this, new NotesViewModelFactory()).get(NotesViewModel.class);
-        notesViewModel.fetchNotes();
+//        notesViewModel.fetchNotes();
         adapter = new NotesAdapter(this);
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
             @Override
