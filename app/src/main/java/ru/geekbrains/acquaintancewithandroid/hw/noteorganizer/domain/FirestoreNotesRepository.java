@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -149,6 +150,34 @@ public class FirestoreNotesRepository implements NotesRepository {
 
     @Override
     public void updateNote(Note note, CallBack<Object> objectCallBack) {
-
+        executor.execute((new Runnable() {
+            @Override
+            public void run() {
+                mainThreadHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Map<String, Object> docData = new HashMap<>();
+                        docData.put("title", note.getTitle());
+                        docData.put("content", note.getContent());
+                        docData.put("typeNote", "other");
+                        //docData.put("date_create", new Timestamp(new Date())); // Дату создания сознательно не обносляем
+                        docData.put("date_update", new Timestamp(new Date()));
+                        docData.put("viewNote", "usual");
+                        db.collection(COLLECTION).document(note.getId()).set(docData, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.w(TAG, "Отредактированная заметка добавлена в хранилище");
+                                objectCallBack.onResult(new Object());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Чтото пошло не так, заметка не обновлена.");
+                            }
+                        });
+                    }
+                });
+            }
+        }));
     }
 }
