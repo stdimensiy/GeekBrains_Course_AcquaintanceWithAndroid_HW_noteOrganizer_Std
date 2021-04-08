@@ -3,11 +3,14 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class Note implements Parcelable {
     public String id;                   //уникальный идентификатор записи
     private String title;               //заголовок заметки
     private String content;             //содержимое заметки
-    private long createDate;            //дата и время создания заметки
+    private Date createDate;            //дата и время создания заметки
+    private Date updateDate;            //дата и время последнего редактирования заметки
     private boolean marked;             //флаг состояния заметки (отмечена или не отмечена)
 
     public Note() {
@@ -19,9 +22,9 @@ public class Note implements Parcelable {
     }
 
     protected Note(Parcel in) {
+        id = in.readString();
         title = in.readString();
         content = in.readString();
-        createDate = in.readLong();
         marked = in.readByte() != 0;
     }
 
@@ -53,12 +56,20 @@ public class Note implements Parcelable {
         this.content = content;
     }
 
-    public long getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(long createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public boolean isMarked() {
@@ -84,9 +95,9 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeLong(createDate);
         dest.writeByte((byte) (marked ? 1 : 0));
     }
 }

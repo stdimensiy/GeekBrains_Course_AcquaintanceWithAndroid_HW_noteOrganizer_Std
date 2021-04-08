@@ -59,6 +59,7 @@ public class FirestoreNotesRepository implements NotesRepository {
                                     for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                         Note addedNote = new Note(document.getString("title"), document.getString("content"));
                                         addedNote.setId(document.getId());
+                                        addedNote.setCreateDate(document.getDate(FIELD_CREATEDATE));
                                         notes.add(addedNote);
                                     }
                                     callBack.onResult(notes);
@@ -95,6 +96,7 @@ public class FirestoreNotesRepository implements NotesRepository {
                                 Log.w(TAG, "Пустая новая заметка добавлена в базу облако");
                                 Note note = new Note("Заголовок новой заметки", "");
                                 note.setId(documentReference.getId());
+                                note.setCreateDate(new Date());
                                 notes.add(note);
                                 noteCallBack.onResult(note);
                             }

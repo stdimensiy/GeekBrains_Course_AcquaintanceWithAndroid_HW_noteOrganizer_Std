@@ -41,8 +41,9 @@ public class EditNoteViewModel extends ViewModel {
     }
 
     //Логика сохранения измененных данных
-    public void saveNote(Editable text, Note note) {
-        note.setTitle(text.toString()); // передаем как есть из поля редактирования в элемент
+    public void saveNote(Editable text, Editable content, Note note) {
+        note.setTitle(text.toString());   // передаем как есть из поля редактирования в элемент
+        note.setContent(content.toString()); // забираем данные контента из поля пока как есть
         //СТАРТ показа прогресс-бара
         progressLiveData.setValue(true);
         repository.updateNote(note, new CallBack<Object>() {
