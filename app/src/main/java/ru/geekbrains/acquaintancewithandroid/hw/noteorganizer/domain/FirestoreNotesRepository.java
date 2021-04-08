@@ -27,6 +27,8 @@ import java.util.concurrent.Executors;
 public class FirestoreNotesRepository implements NotesRepository {
     public static final FirestoreNotesRepository INSTANCE = new FirestoreNotesRepository();
     private static final String TAG = "FireStore";
+    //Структура хранилища заметки в FS
+    private static final String COLLECTION = "notes";               // заголовок зам
     //Структура данных заметки в FS
     private static final String FIELD_TITLE = "title";               // заголовок заметки
     private static final String FIELD_CONTENT = "content";           // тело заметки
@@ -48,7 +50,7 @@ public class FirestoreNotesRepository implements NotesRepository {
                 mainThreadHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        db.collection("notes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        db.collection(COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -86,7 +88,7 @@ public class FirestoreNotesRepository implements NotesRepository {
                         docData.put("date_create", new Timestamp(new Date()));
                         docData.put("date_update", new Timestamp(new Date()));
                         docData.put("viewNote", "usual");
-                        db.collection("notes").add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.w(TAG, "Пустая новая заметка добавлена в базу облако");
@@ -115,7 +117,7 @@ public class FirestoreNotesRepository implements NotesRepository {
                 mainThreadHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        db.collection("notes").document(note.getId())
+                        db.collection(COLLECTION).document(note.getId())
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -134,12 +136,15 @@ public class FirestoreNotesRepository implements NotesRepository {
                 });
             }
         }));
-
     }
 
     @Override
     public void clearAllNotes(CallBack<Object> voidCallBack) {
-
+        //согласно правил Firestore документы правильно удаляются последовательно из коллекции по одному
+        //коллекция уничтожается автоматически когда в ней не останется элементов
+        // следовательно реализация данного метода переносится в цикли организуемый NoteViewModel
+        // в котором последовательно вызываются метода deleteNote
+        // процесс отслеживаемый, во вьюшке анимированный.
     }
 
     @Override
