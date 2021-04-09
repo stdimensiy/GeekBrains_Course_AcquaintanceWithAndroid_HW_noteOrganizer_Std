@@ -8,4 +8,6 @@ public interface TasksRepository {
     void addTask(String title);
 
     void deleteTask(int index);
+
+    void updateTask(Task task, CallBack<Object> objectCallBack);
 }
