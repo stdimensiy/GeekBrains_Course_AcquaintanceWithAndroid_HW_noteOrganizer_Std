@@ -7,11 +7,18 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -24,8 +31,8 @@ public class FirestoreTasksRepository implements TasksRepository {
     //Структура данных заметки в FS
     private static final String FIELD_TITLE = "title";                   // заголовок задачи
     private static final String FIELD_CONTENT = "content";               // описание задачи
-    private static final String FIELD_TYPE = "typeNote";                 // тип задачи ( прочее / важное / учеба / работа)
-    private static final String FIELD_VIEW = "viewNote";                 // вид карточки задачи ( обычная (разовая) задача / циклическая / накопительная)
+    private static final String FIELD_TYPE = "typeTask";                 // тип задачи ( прочее / важное / учеба / работа)
+    private static final String FIELD_VIEW = "viewTask";                 // вид карточки задачи ( обычная (разовая) задача / циклическая / накопительная)
     private static final String FIELD_CREATEDATE = "date_create";        // дата создания задачи
     private static final String FIELD_UPDATEDATE = "date_update";        // дата редактирования задачи
     private static final String FIELD_ALARMDATE = "date_alarm";          // дата создания задачи
@@ -38,44 +45,71 @@ public class FirestoreTasksRepository implements TasksRepository {
 
     @Override
     public void getTasks(CallBack<ArrayList<Task>> callBack) {
-        executor.execute(new Runnable() {
+        db.collection(COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void run() {
-                mainThreadHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        db.collection(COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    tasks.clear();
-                                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        Task addedTask = new Task(document.getString("title"), document.getString("content"));
-                                        addedTask.setId(document.getId());
-                                        addedTask.setCreateDate(document.getDate(FIELD_CREATEDATE));
-                                        tasks.add(addedTask);
-                                    }
-                                    callBack.onResult(tasks);
-                                    Log.w(TAG, "отработал модуль GETTASKS чтения из базы FS репозитория. в массиве: " + tasks.size() + " - элементов");
-                                } else {
-                                    Log.w(TAG, "Error getting documents.", task.getException());
-                                }
-                            }
-                        });
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    tasks.clear();
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Task addedTask = new Task(document.getString(FIELD_TITLE), document.getString(FIELD_CONTENT));
+                        addedTask.setId(document.getId());
+                        addedTask.setCreateDate(document.getDate(FIELD_CREATEDATE));
+                        tasks.add(addedTask);
                     }
-                });
+                    callBack.onResult(tasks);
+                    Log.w(TAG, "отработал модуль GETTASKS чтения из базы FS репозитория. в массиве: " + tasks.size() + " - элементов");
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
             }
         });
     }
 
     @Override
-    public void addTask(String title) {
+    public void addTask(CallBack<Task> taskCallBack) {
+        Map<String, Object> docData = new HashMap<>();
+        docData.put(FIELD_TITLE, "Новая задача");
+        docData.put(FIELD_CONTENT, "");
+        docData.put(FIELD_TYPE, "other");
+        docData.put(FIELD_CREATEDATE, new Timestamp(new Date()));
+        docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
+        docData.put(FIELD_VIEW, "usual");
+        db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.w(TAG, "дефолтная заадача добавлена в базу данных");
+                Task task = new Task("Новая задача", "");
+                task.setId(documentReference.getId());
+                task.setCreateDate(new Date());
+                tasks.add(task);
+                taskCallBack.onResult(task);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Чтото пошло не так, новая задача не добавлена.");
+            }
+        });
 
     }
 
     @Override
-    public void deleteTask(int index) {
-
+    public void deleteTask(Task task, CallBack<Task> taskCallBack) {
+        db.collection(COLLECTION).document(task.getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.w(TAG, "Заметка удалена!  ID: " + task.getId());
+                        tasks.remove(task);
+                        taskCallBack.onResult(task);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Ошибка!!! Документ ID: " + task.getId() + " НЕ удален!", e);
+            }
+        });
     }
 
     @Override

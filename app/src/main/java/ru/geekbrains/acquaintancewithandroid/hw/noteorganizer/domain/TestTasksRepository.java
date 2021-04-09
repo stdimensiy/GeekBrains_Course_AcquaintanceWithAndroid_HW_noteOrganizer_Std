@@ -48,13 +48,13 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(String title) {
-        tasks.add(new Task(title, "Описание новой задачи."));
+    public void addTask(CallBack<Task> taskCallBack) {
+
     }
 
     @Override
-    public void deleteTask(int index) {
-        tasks.remove(index);
+    public void deleteTask(Task task, CallBack<Task> taskCallBack) {
+
     }
 
     @Override

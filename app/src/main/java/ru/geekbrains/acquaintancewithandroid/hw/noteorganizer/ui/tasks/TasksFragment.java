@@ -116,13 +116,31 @@ public class TasksFragment extends Fragment {
                 }
             }
         });
+        //получаем лайвдату с новой задачей внутри
+        tasksViewModel.getNewTaskAddedLiveData().observe(getViewLifecycleOwner(), new Observer<Task>() {
+            @Override
+            public void onChanged(Task task) {
+                //работаем с адаптером при каждом изменении
+                adapter.addItem(task);         // загружаем новые данные
+                adapter.notifyItemInserted(adapter.getItemCount() - 1);
+                taskRecyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+            }
+        });
+        //получаем лайвдату удаления заметки
+        tasksViewModel.getDeleteTaskPositionLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer position) {
+                //работаем с адаптером при каждом изменении
+                adapter.deleteItem(position);
+                adapter.notifyItemRemoved(position);
+            }
+        });
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Плавающая кнопка добавления новой ЗАДАЧИ нажата!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                tasksViewModel.addNewTask();
             }
         });
     }
@@ -143,7 +161,7 @@ public class TasksFragment extends Fragment {
             // любым и на любом языке)
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_task:
-                Pluggable.ToastPlug(requireContext(), "Добавление новой задачи");
+                tasksViewModel.addNewTask();
                 break;
             case R.id.action_new_type:
                 Pluggable.ToastPlug(requireContext(), "Добавление нового типа задачи");
@@ -169,10 +187,8 @@ public class TasksFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete_task) {
-            if (item.getItemId() == R.id.action_delete_task) {
-                //tasksViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
-            }
-            Toast.makeText(requireContext(), "Тестовый тост", Toast.LENGTH_SHORT).show();
+            tasksViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
+           // Toast.makeText(requireContext(), "Тестовый тост", Toast.LENGTH_SHORT).show();
         }
         return super.onContextItemSelected(item);
     }

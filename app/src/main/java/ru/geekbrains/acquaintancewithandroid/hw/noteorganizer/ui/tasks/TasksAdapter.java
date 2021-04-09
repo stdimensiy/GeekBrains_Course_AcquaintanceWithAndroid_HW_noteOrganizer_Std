@@ -14,26 +14,49 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
+    private final Fragment fragment;
     private ArrayList<Task> items = new ArrayList<>();
     private OnTaskClicked taskClicked;
-    private final Fragment fragment;
+    private OnTaskLongClicked taskLongClicked;
 
     public TasksAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
 
-    public TasksAdapter.OnTaskLongClicked getTaskLongClicked() {
+    public void clear() {
+        items.clear();
+    }
+    public void addItems(ArrayList<Task> toAdd) {
+        items.addAll(toAdd);
+    }
+
+    // Временный метод объединяющммий функционал методов addItems и clear (улучшение для экономии места)
+    // TODO после тестирования приняять решение и убрать лишние методы
+    public void setItems(ArrayList<Task> toSet) {
+        items.clear();
+        items.addAll(toSet);
+    }
+
+    //метод добавления нового элемента в коллекцию
+    public void addItem(Task task) {
+        items.add(task);
+    }
+
+    public void deleteItem(int position) {
+        items.remove(position);
+    }
+
+    public OnTaskLongClicked getTaskLongClicked() {
         return taskLongClicked;
     }
 
-    public void setTaskLongClicked(TasksAdapter.OnTaskLongClicked taskLongClicked) {
+    public void setTaskLongClicked(OnTaskLongClicked taskLongClicked) {
         this.taskLongClicked = taskLongClicked;
     }
-
-    private TasksAdapter.OnTaskLongClicked taskLongClicked;
 
     public OnTaskClicked getTaskClicked() {
         return taskClicked;
@@ -63,14 +86,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     public Task getItemAtIndex(int contextMenuItemPosition) {
         return items.get(contextMenuItemPosition);
-    }
-
-    public void addItems(ArrayList<Task> toAdd) {
-        items.addAll(toAdd);
-    }
-
-    public void clear() {
-        items.clear();
     }
 
     interface OnTaskClicked {
