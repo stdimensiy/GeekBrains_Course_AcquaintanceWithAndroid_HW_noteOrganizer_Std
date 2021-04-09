@@ -1,7 +1,11 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,13 +29,29 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Pluggable;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
 
 public class TasksFragment extends Fragment {
 
     private TasksViewModel tasksViewModel;
     private TasksAdapter adapter;
+    private int contextMenuItemPosition;
+    private OnTaskSelected listener;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnTaskSelected) {
+            listener = (OnTaskSelected) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        listener = null;
+        super.onDetach();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,11 +62,27 @@ public class TasksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         tasksViewModel = new ViewModelProvider(this, new TasksViewModelFactory()).get(TasksViewModel.class);
         tasksViewModel.fetchTasks();
-        adapter = new TasksAdapter();
+        adapter = new TasksAdapter(this);
         adapter.setTaskClicked(new TasksAdapter.OnTaskClicked() {
             @Override
             public void onTaskClicked(Task task) {
+                if (listener != null) {
+                    listener.onTaskSelected(task);
+                }
                 Toast.makeText(requireContext(), task.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // для длительного нажатия на элемент
+        adapter.setTaskLongClicked(new TasksAdapter.OnTaskLongClicked() {
+            @Override
+            public void onTaskLongClicked(View itemView, int position, Task task) {
+                contextMenuItemPosition = position;
+                // интересная конструкция применения части кода в зависимости от версии SDK (надо запомнить и применять)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    itemView.showContextMenu(10.f, 10.f);
+                } else {
+                    itemView.showContextMenu();
+                }
             }
         });
         return inflater.inflate(R.layout.fragment_tasks, container, false);
@@ -55,6 +91,7 @@ public class TasksFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        registerForContextMenu(view);
         RecyclerView taskRecyclerView = view.findViewById(R.id.tasks_list);
         taskRecyclerView.setAdapter(adapter);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -88,7 +125,6 @@ public class TasksFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
-
     }
 
     @Override
@@ -120,5 +156,28 @@ public class TasksFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        Log.w("TASKS - FRAGMENT", "сработало событие onCreateContextMenu");
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = requireActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.tasks_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_delete_task) {
+            if (item.getItemId() == R.id.action_delete_task) {
+                //tasksViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
+            }
+            Toast.makeText(requireContext(), "Тестовый тост", Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public interface OnTaskSelected {
+        void onTaskSelected(Task task);
     }
 }

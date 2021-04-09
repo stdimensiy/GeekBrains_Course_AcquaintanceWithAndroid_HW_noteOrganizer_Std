@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_delete_task"
+        android:orderInCategory="100"
+        android:title="Удалить задачу"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_refuse_task"
+        android:orderInCategory="100"
+        android:title="Отказаться от выполнения задачи"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_defer_task"
+        android:orderInCategory="100"
+        android:title="Отлижить задачу"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit_task"
+        android:orderInCategory="100"
+        android:title="Редактировать параметры задачи"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clone_task"
+        android:orderInCategory="100"
+        android:title="Клонировать задачу"
+        app:showAsAction="never" />
+</menu>
