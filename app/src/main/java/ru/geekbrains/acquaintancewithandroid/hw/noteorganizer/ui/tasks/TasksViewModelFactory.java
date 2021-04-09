@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.FirestoreTasksRepository;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TestTasksRepository;
 
 public class TasksViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new TasksViewModel(TestTasksRepository.INSTANCE);
+        return (T) new TasksViewModel(FirestoreTasksRepository.INSTANCE);
     }
 }
