@@ -64,7 +64,6 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
         EditText editContent = view.findViewById(R.id.edit_note_EditText_content);
         if (getArguments() != null) {

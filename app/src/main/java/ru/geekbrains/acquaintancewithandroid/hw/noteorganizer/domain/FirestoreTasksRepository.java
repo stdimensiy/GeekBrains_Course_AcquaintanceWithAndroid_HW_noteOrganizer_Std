@@ -1,7 +1,5 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,8 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class FirestoreTasksRepository implements TasksRepository {
     public static final FirestoreTasksRepository INSTANCE = new FirestoreTasksRepository();
@@ -39,8 +35,6 @@ public class FirestoreTasksRepository implements TasksRepository {
     private static final String FIELD_ALARMDATE = "date_alarm";          // дата создания задачи
     private static final String FIELD_DEADLINEDATE = "date_deadline";    // дата редактирования задачи
     //конец определения структуры
-    private final Executor executor = Executors.newCachedThreadPool();
-    private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
     private ArrayList<Task> tasks = new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -74,6 +68,8 @@ public class FirestoreTasksRepository implements TasksRepository {
         docData.put(FIELD_TYPE, "other");
         docData.put(FIELD_CREATEDATE, new Timestamp(new Date()));
         docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
+        docData.put(FIELD_ALARMDATE, new Timestamp(new Date()));
+        docData.put(FIELD_DEADLINEDATE, new Timestamp(new Date()));
         docData.put(FIELD_VIEW, "usual");
         db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -120,7 +116,7 @@ public class FirestoreTasksRepository implements TasksRepository {
         docData.put(FIELD_TITLE, task.getTitle());
         docData.put(FIELD_CONTENT, task.getContent());
         docData.put(FIELD_TYPE, "other");
-        //docData.put("date_create", new Timestamp(new Date())); // Дату создания сознательно не обносляем
+        //docData.put(FIELD_CREATEDATE, new Timestamp(new Date())); // Дату создания сознательно не обносляем
         docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
         docData.put(FIELD_VIEW, "usual");
         db.collection(COLLECTION).document(task.getId()).set(docData, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {

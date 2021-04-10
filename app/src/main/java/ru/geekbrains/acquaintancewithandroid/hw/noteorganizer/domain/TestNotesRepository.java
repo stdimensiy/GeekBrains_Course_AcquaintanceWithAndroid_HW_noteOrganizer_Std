@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -53,7 +54,7 @@ public class TestNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void addNewTestNote(CallBack<Note> noteCallBack) {
+    public void addNewTestNote(Context context, CallBack<Note> noteCallBack) {
         //notes.add(new Note(title, "Тело новой заметки."));
         executor.execute((new Runnable() {
             @Override

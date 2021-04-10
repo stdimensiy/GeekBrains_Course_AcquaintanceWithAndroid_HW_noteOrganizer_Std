@@ -19,4 +19,8 @@
     <string name="edit_note_title">Редактирование заметки</string>
     <string name="edit_note_btn_save_text">Сохранить изменения</string>
     <string name="edit_task_btn_save_text">Сохранить изменения в задаче</string>
+    <string name="default_note_title">Новая заметка...</string>
+    <string name="default_note_content">...</string>
+    <string name="default_note_view">usual</string>
+    <string name="default_note_type">other</string>
 </resources>

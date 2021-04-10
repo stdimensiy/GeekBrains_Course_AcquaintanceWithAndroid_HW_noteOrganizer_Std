@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -164,13 +163,13 @@ public class TasksFragment extends Fragment {
                 tasksViewModel.addNewTask();
                 break;
             case R.id.action_new_type:
-                Pluggable.ToastPlug(requireContext(), "Добавление нового типа задачи");
+                Pluggable.toastPlug(requireContext(), "Добавление нового типа задачи");
                 break;
             case R.id.action_settings:
-                Pluggable.ToastPlug(requireContext(), "Настройки задач");
+                Pluggable.toastPlug(requireContext(), "Настройки задач");
                 break;
             case R.id.action_help:
-                Pluggable.ToastPlug(requireContext(), "Инструкция для задач");
+                Pluggable.toastPlug(requireContext(), "Инструкция для задач");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -188,7 +187,7 @@ public class TasksFragment extends Fragment {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_delete_task) {
             tasksViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
-           // Toast.makeText(requireContext(), "Тестовый тост", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(requireContext(), "Тестовый тост", Toast.LENGTH_SHORT).show();
         }
         return super.onContextItemSelected(item);
     }

@@ -48,10 +48,10 @@ public class SettingsFragment extends Fragment {
             // любым и на любом языке)
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_exit:
-                Pluggable.ToastPlug(requireContext(), "Закрыть приложение");
+                Pluggable.toastPlug(requireContext(), "Закрыть приложение");
                 break;
             case R.id.action_help:
-                Pluggable.ToastPlug(requireContext(), "Инструкция для настроек");
+                Pluggable.toastPlug(requireContext(), "Инструкция для настроек");
                 break;
         }
         return super.onOptionsItemSelected(item);
