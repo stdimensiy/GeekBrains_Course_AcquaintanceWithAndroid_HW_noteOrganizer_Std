@@ -12,6 +12,7 @@ public class Task extends Note {
 //    private boolean marked;             //флаг состояния заметки (отмечена или не отмечена)
 
     private Date alarmDate;        // дата и время напоминания
+    private Date deadlineDate;        // дата и время напоминания
     private boolean isChecked;     // состояние флажка задачи (отмечено или нет)
 
     public Task() {
@@ -20,10 +21,15 @@ public class Task extends Note {
 
     public Task(String title, String content) {
         super(title, content);
-        //значения по умолчанию
-        setCreateDate(new Date());
-        setUpdateDate(new Date());
         this.isChecked = false;
+    }
+
+    public Date getDeadlineDate() {
+        return deadlineDate;
+    }
+
+    public void setDeadlineDate(Date deadlineDate) {
+        this.deadlineDate = deadlineDate;
     }
 
     public Date getAlarmDate() {

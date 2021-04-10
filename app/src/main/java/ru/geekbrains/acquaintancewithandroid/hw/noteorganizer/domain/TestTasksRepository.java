@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -48,7 +49,7 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(CallBack<Task> taskCallBack) {
+    public void addTask(Context context, CallBack<Task> taskCallBack) {
 
     }
 

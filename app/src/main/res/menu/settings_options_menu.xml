@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/grp1">
         <item
-            android:id="@+id/action_new_exit"
+            android:id="@+id/action_exit"
             android:orderInCategory="100"
-            android:title="Закрыть приложение"
+            android:title="@string/options_closeApp"
             app:showAsAction="never" />
     </group>
     <item
         android:id="@+id/action_help"
         android:orderInCategory="100"
-        android:title="Инструкция"
+        android:title="@string/options_menu_action_help_settings"
         app:showAsAction="never" />
 </menu>

@@ -4,26 +4,26 @@
     <item
         android:id="@+id/action_delete_task"
         android:orderInCategory="100"
-        android:title="Удалить задачу"
+        android:title="@string/options_menu_action_delete_task"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_refuse_task"
         android:orderInCategory="100"
-        android:title="Отказаться от выполнения задачи"
+        android:title="@string/options_menu_action_refuse_task"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_defer_task"
         android:orderInCategory="100"
-        android:title="Отлижить задачу"
+        android:title="@string/options_menu_action_deffer_task"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_edit_task"
         android:orderInCategory="100"
-        android:title="Редактировать параметры задачи"
+        android:title="@string/options_menu_action_edit_task"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_clone_task"
         android:orderInCategory="100"
-        android:title="Клонировать задачу"
+        android:title="@string/options_menu_action_clone_task"
         app:showAsAction="never" />
 </menu>

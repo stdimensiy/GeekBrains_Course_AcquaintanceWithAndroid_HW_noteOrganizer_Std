@@ -1,5 +1,7 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -56,10 +58,10 @@ public class TasksViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public void addNewTask(){
+    public void addNewTask(Context context){
         //СТАРТ показа прогресс-бара
         tasksProgressBarLiveData.setValue(true);
-        tasksRepository.addTask(new CallBack<Task>() {
+        tasksRepository.addTask(context, new CallBack<Task>() {
             @Override
             public void onResult(Task value) {
                 newTaskAddedLiveData.postValue(value);
@@ -77,6 +79,19 @@ public class TasksViewModel extends ViewModel {
             public void onResult(Task value) {
                 deleteTaskPositionLiveData.setValue(contextMenuItemPosition);
                 //СТОП показа прогресс-бара
+                tasksProgressBarLiveData.setValue(false);
+            }
+        });
+    }
+
+    public void clearAllTasks() {
+        tasksProgressBarLiveData.setValue(true);
+        tasksRepository.getTasks(new CallBack<ArrayList<Task>>() {
+            @Override
+            public void onResult(ArrayList<Task> value) {
+                for (Task delTask: value) {
+                    deleteItemPosition(delTask, 0);
+                }
                 tasksProgressBarLiveData.setValue(false);
             }
         });

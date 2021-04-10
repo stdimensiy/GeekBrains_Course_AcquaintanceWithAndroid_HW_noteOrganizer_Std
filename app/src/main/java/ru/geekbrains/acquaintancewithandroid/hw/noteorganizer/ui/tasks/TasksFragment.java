@@ -68,7 +68,7 @@ public class TasksFragment extends Fragment {
                 if (listener != null) {
                     listener.onTaskSelected(task);
                 }
-                Toast.makeText(requireContext(), task.getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireContext(), task.getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
         // для длительного нажатия на элемент
@@ -139,7 +139,7 @@ public class TasksFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tasksViewModel.addNewTask();
+                tasksViewModel.addNewTask(requireContext());
             }
         });
     }
@@ -160,7 +160,7 @@ public class TasksFragment extends Fragment {
             // любым и на любом языке)
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_task:
-                tasksViewModel.addNewTask();
+                tasksViewModel.addNewTask(requireContext());
                 break;
             case R.id.action_new_type:
                 Pluggable.toastPlug(requireContext(), "Добавление нового типа задачи");
@@ -170,6 +170,10 @@ public class TasksFragment extends Fragment {
                 break;
             case R.id.action_help:
                 Pluggable.toastPlug(requireContext(), "Инструкция для задач");
+                break;
+            case R.id.action_clear_all_tasks:
+                tasksViewModel.clearAllTasks();
+                //Pluggable.toastPlug(requireContext(), "Удалить все задачи");
                 break;
         }
         return super.onOptionsItemSelected(item);

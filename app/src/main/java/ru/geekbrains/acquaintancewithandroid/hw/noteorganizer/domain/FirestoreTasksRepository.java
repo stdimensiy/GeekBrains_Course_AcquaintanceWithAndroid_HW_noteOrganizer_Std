@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 
 public class FirestoreTasksRepository implements TasksRepository {
     public static final FirestoreTasksRepository INSTANCE = new FirestoreTasksRepository();
@@ -49,6 +52,11 @@ public class FirestoreTasksRepository implements TasksRepository {
                         Task addedTask = new Task(document.getString(FIELD_TITLE), document.getString(FIELD_CONTENT));
                         addedTask.setId(document.getId());
                         addedTask.setCreateDate(document.getDate(FIELD_CREATEDATE));
+                        addedTask.setUpdateDate(document.getDate(FIELD_UPDATEDATE));
+                        addedTask.setAlarmDate(document.getDate(FIELD_ALARMDATE));
+                        addedTask.setDeadlineDate(document.getDate(FIELD_DEADLINEDATE));
+                        addedTask.setElemType(document.getString(FIELD_TYPE));
+                        addedTask.setElemView(document.getString(FIELD_VIEW));
                         tasks.add(addedTask);
                     }
                     callBack.onResult(tasks);
@@ -61,23 +69,29 @@ public class FirestoreTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(CallBack<Task> taskCallBack) {
+    public void addTask(Context context, CallBack<Task> taskCallBack) {
         Map<String, Object> docData = new HashMap<>();
-        docData.put(FIELD_TITLE, "Новая задача");
-        docData.put(FIELD_CONTENT, "");
-        docData.put(FIELD_TYPE, "other");
-        docData.put(FIELD_CREATEDATE, new Timestamp(new Date()));
-        docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
-        docData.put(FIELD_ALARMDATE, new Timestamp(new Date()));
-        docData.put(FIELD_DEADLINEDATE, new Timestamp(new Date()));
-        docData.put(FIELD_VIEW, "usual");
+        Date baseCreateDate = new Date();
+        docData.put(FIELD_TITLE, context.getResources().getString(R.string.default_task_title));
+        docData.put(FIELD_CONTENT, context.getResources().getString(R.string.default_task_content));
+        docData.put(FIELD_TYPE, context.getResources().getString(R.string.default_task_type));
+        docData.put(FIELD_CREATEDATE, new Timestamp(baseCreateDate));
+        docData.put(FIELD_UPDATEDATE, new Timestamp(baseCreateDate));
+        docData.put(FIELD_ALARMDATE, new Timestamp(baseCreateDate));
+        docData.put(FIELD_DEADLINEDATE, new Timestamp(baseCreateDate));
+        docData.put(FIELD_VIEW, context.getResources().getString(R.string.default_task_view));
         db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.w(TAG, "дефолтная заадача добавлена в базу данных");
-                Task task = new Task("Новая задача", "");
+                Log.w(TAG, "Дефолтная заадача добавлена в базу данных");
+                Task task = new Task(context.getResources().getString(R.string.default_task_title), context.getResources().getString(R.string.default_task_content));
                 task.setId(documentReference.getId());
-                task.setCreateDate(new Date());
+                task.setCreateDate(baseCreateDate);
+                task.setUpdateDate(baseCreateDate);
+                task.setAlarmDate(baseCreateDate);
+                task.setDeadlineDate(baseCreateDate);
+                task.setElemType(context.getResources().getString(R.string.default_task_type));
+                task.setElemView(context.getResources().getString(R.string.default_task_view));
                 tasks.add(task);
                 taskCallBack.onResult(task);
             }
@@ -115,10 +129,12 @@ public class FirestoreTasksRepository implements TasksRepository {
         Map<String, Object> docData = new HashMap<>();
         docData.put(FIELD_TITLE, task.getTitle());
         docData.put(FIELD_CONTENT, task.getContent());
-        docData.put(FIELD_TYPE, "other");
+        docData.put(FIELD_TYPE, task.getElemType());
         //docData.put(FIELD_CREATEDATE, new Timestamp(new Date())); // Дату создания сознательно не обносляем
         docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
-        docData.put(FIELD_VIEW, "usual");
+        docData.put(FIELD_ALARMDATE, task.getAlarmDate());
+        docData.put(FIELD_DEADLINEDATE, task.getDeadlineDate());
+        docData.put(FIELD_VIEW, task.getElemView());
         db.collection(COLLECTION).document(task.getId()).set(docData, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

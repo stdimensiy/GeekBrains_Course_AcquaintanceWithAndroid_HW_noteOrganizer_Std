@@ -5,27 +5,27 @@
         <item
             android:id="@+id/action_new_note"
             android:orderInCategory="100"
-            android:title="Новая заметка"
+            android:title="@string/options_menu_action_create_new_note"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_new_theme"
             android:orderInCategory="100"
-            android:title="Новая тема"
+            android:title="@string/options_menu_action_create_new_theme_notes"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_settings"
             android:orderInCategory="100"
-            android:title="Настройки"
+            android:title="@string/options_menu_action_settings_notes"
             app:showAsAction="never" />
     </group>
     <item
         android:id="@+id/action_help"
         android:orderInCategory="100"
-        android:title="Инструкция"
+        android:title="@string/options_menu_action_help_notes"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_clear_all_notes"
         android:orderInCategory="100"
-        android:title="Удалить все заметки"
+        android:title="@string/options_menu_action_clear_All_Notes"
         app:showAsAction="never" />
 </menu>
