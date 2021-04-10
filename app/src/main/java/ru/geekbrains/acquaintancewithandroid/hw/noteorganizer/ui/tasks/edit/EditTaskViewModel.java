@@ -1,7 +1,9 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.edit;
 
 import android.text.Editable;
+import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,6 +21,18 @@ public class EditTaskViewModel extends ViewModel {
         this.repository = repository;
     }
 
+    public LiveData<Boolean> getProgressLiveData() {
+        return progressLiveData;
+    }
+
+    public LiveData<Boolean> getSaveEnabledLiveData() {
+        return saveEnabledLiveData;
+    }
+
+    public LiveData<Object> getSaveSucceedLiveData() {
+        return saveSucceedLiveData;
+    }
+
     // логика валидации вводимых данных
     // 1 вариант - просто непустая строка
     // 2 вариант (в разработке) проверить, если данные не изменены кнопку не активировать.
@@ -27,7 +41,8 @@ public class EditTaskViewModel extends ViewModel {
     }
 
     //Логика сохранения измененных данных
-    public void saveNote(Editable text, Editable content, Task task) {
+    public void saveTask(Editable text, Editable content, Task task) {
+        Log.w("EditTaskViewModel", "Метод saveTask начал свою работу ");
         task.setTitle(text.toString());   // передаем как есть из поля редактирования в элемент
         task.setContent(content.toString()); // забираем данные контента из поля пока как есть
         //СТАРТ показа прогресс-бара
@@ -40,5 +55,6 @@ public class EditTaskViewModel extends ViewModel {
                 saveSucceedLiveData.setValue(new Object());
             }
         });
+        Log.w("EditTaskViewModel", "Метод saveTask Закончил свою работу ");
     }
 }

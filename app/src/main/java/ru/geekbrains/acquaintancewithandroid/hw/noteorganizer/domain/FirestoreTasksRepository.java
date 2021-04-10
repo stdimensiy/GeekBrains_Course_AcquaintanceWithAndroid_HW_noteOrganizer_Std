@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,6 +115,26 @@ public class FirestoreTasksRepository implements TasksRepository {
 
     @Override
     public void updateTask(Task task, CallBack<Object> objectCallBack) {
-
+        Log.w(TAG, " Метод updateTask начал свою работу ");
+        Map<String, Object> docData = new HashMap<>();
+        docData.put(FIELD_TITLE, task.getTitle());
+        docData.put(FIELD_CONTENT, task.getContent());
+        docData.put(FIELD_TYPE, "other");
+        //docData.put("date_create", new Timestamp(new Date())); // Дату создания сознательно не обносляем
+        docData.put(FIELD_UPDATEDATE, new Timestamp(new Date()));
+        docData.put(FIELD_VIEW, "usual");
+        db.collection(COLLECTION).document(task.getId()).set(docData, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.w(TAG, "Отредактированная задача добавлена в хранилище");
+                objectCallBack.onResult(new Object());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Чтото пошло не так, задача не обновлена.");
+            }
+        });
+        Log.w(TAG, "Метод updateTask ЗАКОНЧИЛ свою работу ");
     }
 }

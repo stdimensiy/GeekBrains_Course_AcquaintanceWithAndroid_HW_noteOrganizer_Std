@@ -45,10 +45,13 @@
     <fragment
         android:id="@+id/editTaskFragment"
         android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.edit.EditTaskFragment"
-        android:label="fragment_edit_task"
+        android:label="Редактирование задачи"
         tools:layout="@layout/fragment_edit_task" >
         <action
             android:id="@+id/action_editTaskFragment_to_navigation_tasks"
             app:destination="@id/navigation_tasks" />
+        <argument
+            android:name="task"
+            app:argType="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task" />
     </fragment>
 </navigation>
