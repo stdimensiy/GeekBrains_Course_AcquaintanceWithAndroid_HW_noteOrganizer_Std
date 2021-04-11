@@ -172,7 +172,7 @@ public class TasksFragment extends Fragment {
                 Pluggable.toastPlug(requireContext(), "Инструкция для задач");
                 break;
             case R.id.action_clear_all_tasks:
-                showAlert();
+                showAlertDeleteAllTasks();
                 //Pluggable.toastPlug(requireContext(), "Удалить все задачи");
                 break;
         }
@@ -196,13 +196,9 @@ public class TasksFragment extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    public interface OnTaskSelected {
-        void onTaskSelected(Task task);
-    }
-
-    private void showAlert(){
+    private void showAlertDeleteAllTasks() {
         AlertDialog firstAlert = new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.tasks_alert_delete_all_title)
+                .setTitle(R.string.alert_title_warning)
                 .setMessage(R.string.tasks_alert_delete_all_message)
                 .setIcon(R.drawable.ic_baseline_warning_24)
                 .setPositiveButton(R.string.text_answer_is_yes, new DialogInterface.OnClickListener() {
@@ -222,5 +218,9 @@ public class TasksFragment extends Fragment {
                 .setCancelable(false)
                 .create();
         firstAlert.show();
+    }
+
+    public interface OnTaskSelected {
+        void onTaskSelected(Task task);
     }
 }

@@ -2,6 +2,7 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -185,7 +187,7 @@ public class NotesFragment extends Fragment implements Pluggable {
                 break;
             case R.id.action_clear_all_notes:
                 //Командуем очистить весь список полностью
-                notesViewModel.clearAllNotes();
+                showAlertDeleteAllNotes();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -204,6 +206,28 @@ public class NotesFragment extends Fragment implements Pluggable {
             notesViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void showAlertDeleteAllNotes() {
+        AlertDialog firstAlert = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.alert_title_warning)
+                .setMessage(R.string.notes_alert_delete_all_message)
+                .setIcon(R.drawable.ic_baseline_warning_24)
+                .setPositiveButton(R.string.text_answer_is_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notesViewModel.clearAllNotes();
+                    }
+                })
+                .setNegativeButton(R.string.text_answer_is_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // При отрицательном ответе выполнение метода удаления всех заметок ничего не делает
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        firstAlert.show();
     }
 
     public interface OnNoteSelected {
