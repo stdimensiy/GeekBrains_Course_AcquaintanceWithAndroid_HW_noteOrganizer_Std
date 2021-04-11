@@ -55,4 +55,7 @@
     <string name="task_dialog_input_title_title">Введите краткое наименование задачи.</string>
     <string name="task_dialog_create_new_btn_ok_text">Добавить</string>
     <string name="dialog_cancel_text">Отмена</string>
+    <string name="note_dialog_input_title_title">Создание новой заметки.</string>
+    <string name="note_dialog_title_comment">Введите краткое наименование заметки</string>
+    <string name="note_dialog_content_comment">Введите содержание заметки (не обязательно)</string>
 </resources>

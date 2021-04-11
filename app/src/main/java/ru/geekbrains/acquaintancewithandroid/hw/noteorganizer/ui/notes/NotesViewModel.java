@@ -59,10 +59,10 @@ public class NotesViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public void addNewNote(Context context) {
+    public void addNewNote(Context context, String newTitle, String newContent) {
         //СТАРТ показа прогресс-бара
         notesProgressBarLiveData.setValue(true);
-        notesRepository.addNewTestNote(context, new CallBack<Note>() {
+        notesRepository.addNewTestNote(context, newTitle, newContent, new CallBack<Note>() {
             @Override
             public void onResult(Note value) {
                 newNoteAddedLiveData.postValue(value);
