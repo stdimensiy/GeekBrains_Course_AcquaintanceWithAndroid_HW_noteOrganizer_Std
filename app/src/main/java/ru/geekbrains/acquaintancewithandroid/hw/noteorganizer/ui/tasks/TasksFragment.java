@@ -2,9 +2,9 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,10 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -172,7 +172,7 @@ public class TasksFragment extends Fragment {
                 Pluggable.toastPlug(requireContext(), "Инструкция для задач");
                 break;
             case R.id.action_clear_all_tasks:
-                tasksViewModel.clearAllTasks();
+                showAlert();
                 //Pluggable.toastPlug(requireContext(), "Удалить все задачи");
                 break;
         }
@@ -181,7 +181,7 @@ public class TasksFragment extends Fragment {
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
-        Log.w("TASKS - FRAGMENT", "сработало событие onCreateContextMenu");
+        //Log.w("TASKS - FRAGMENT", "сработало событие onCreateContextMenu");
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = requireActivity().getMenuInflater();
         menuInflater.inflate(R.menu.tasks_context_menu, menu);
@@ -198,5 +198,29 @@ public class TasksFragment extends Fragment {
 
     public interface OnTaskSelected {
         void onTaskSelected(Task task);
+    }
+
+    private void showAlert(){
+        AlertDialog firstAlert = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.tasks_alert_delete_all_title)
+                .setMessage(R.string.tasks_alert_delete_all_message)
+                .setIcon(R.drawable.ic_baseline_warning_24)
+                .setPositiveButton(R.string.text_answer_is_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tasksViewModel.clearAllTasks();
+                        //Toast.makeText(requireContext(), "Пользователь ответил ДА!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.text_answer_is_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // При отрицательном ответе выполнение метода удаления всех заданий отменяется
+                        //Toast.makeText(requireContext(), "Пользователь ответил НЕТ!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        firstAlert.show();
     }
 }

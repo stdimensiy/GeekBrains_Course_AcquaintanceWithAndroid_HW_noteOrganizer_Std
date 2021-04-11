@@ -47,4 +47,8 @@
     <string name="context_menu_action_delete_note">Удалить заметку</string>
     <string name="app_name_present">Note ORGANIZER</string>
     <string name="app_version_present">0.1.2</string>
+    <string name="tasks_alert_delete_all_title">Внимание !!!</string>
+    <string name="tasks_alert_delete_all_message">Все задачи будут безвозвратно уделены из базы данных. Вы уверены в своем решении?</string>
+    <string name="text_answer_is_yes">Да</string>
+    <string name="text_answer_is_no">Нет</string>
 </resources>
