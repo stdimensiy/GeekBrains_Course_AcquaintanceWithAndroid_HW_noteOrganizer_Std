@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -139,7 +140,8 @@ public class TasksFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tasksViewModel.addNewTask(requireContext());
+                //tasksViewModel.addNewTask(requireContext());
+                showDialogInputTitleNewTask();
             }
         });
     }
@@ -160,7 +162,7 @@ public class TasksFragment extends Fragment {
             // любым и на любом языке)
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_task:
-                tasksViewModel.addNewTask(requireContext());
+                tasksViewModel.addNewTask(requireContext(),"");
                 break;
             case R.id.action_new_type:
                 Pluggable.toastPlug(requireContext(), "Добавление нового типа задачи");
@@ -218,6 +220,30 @@ public class TasksFragment extends Fragment {
                 .setCancelable(false)
                 .create();
         firstAlert.show();
+    }
+
+    private void showDialogInputTitleNewTask() {
+        EditText newTitleTask = (EditText) getLayoutInflater().inflate(R.layout.single_edittext_dialog, null);
+        AlertDialog inputTitle = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.task_dialog_input_title_title)
+                .setView(newTitleTask)
+                .setIcon(R.drawable.ic_baseline_input_24)
+                .setPositiveButton(R.string.task_dialog_create_new_btn_ok_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tasksViewModel.addNewTask(requireContext(), newTitleTask.getText().toString());
+                        //Toast.makeText(requireContext(), "Пользователь ввел: " + newTitleTask.getText(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton(R.string.dialog_cancel_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(requireContext(), "Пользователь нажал отмену", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        inputTitle.show();
     }
 
     public interface OnTaskSelected {

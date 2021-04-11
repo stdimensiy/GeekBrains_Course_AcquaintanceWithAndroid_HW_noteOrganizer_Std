@@ -52,4 +52,7 @@
     <string name="text_answer_is_yes">Да</string>
     <string name="text_answer_is_no">Нет</string>
     <string name="notes_alert_delete_all_message">Все ваши заметки будут безвозвратно уделены из базы данных.\nВы уверены в своем решении?</string>
+    <string name="task_dialog_input_title_title">Введите краткое наименование задачи.</string>
+    <string name="task_dialog_create_new_btn_ok_text">Добавить</string>
+    <string name="dialog_cancel_text">Отмена</string>
 </resources>
