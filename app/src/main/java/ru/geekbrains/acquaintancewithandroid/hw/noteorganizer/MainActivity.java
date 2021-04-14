@@ -1,7 +1,12 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -87,6 +92,20 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.OnN
     @Override
     public void onTaskSaved() {
         Navigation.findNavController(this, R.id.nav_host_fragment).popBackStack();
+    }
+
+    public void onMenuClick(MenuItem item){
+        Toast.makeText(this, "Опички!!!" + item, Toast.LENGTH_SHORT).show();
+        Uri uri = Uri.parse("application://SimpleCalculatorStd");
+        Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, uri);
+        // передачу параметра усвоил, в рамках данного проекта передавать пока ничего не собираюсь
+        // просто запускаю калькулятор (если он установлен)
+        ActivityInfo activityInfo =
+                openLinkIntent.resolveActivityInfo(getPackageManager(),
+                        openLinkIntent.getFlags());
+        if (activityInfo != null) {
+            startActivity(openLinkIntent);
+        }
     }
 
 }
