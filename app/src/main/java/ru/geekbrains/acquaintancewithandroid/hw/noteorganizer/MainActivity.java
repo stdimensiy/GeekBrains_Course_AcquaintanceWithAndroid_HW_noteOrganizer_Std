@@ -95,11 +95,10 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.OnN
     }
 
     public void onMenuClick(MenuItem item){
-        Toast.makeText(this, "Опички!!!" + item, Toast.LENGTH_SHORT).show();
         Uri uri = Uri.parse("application://SimpleCalculatorStd");
         Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, uri);
         // передачу параметра усвоил, в рамках данного проекта передавать пока ничего не собираюсь
-        // просто запускаю калькулятор (если он установлен)
+        // просто запускаю мой калькулятор (если он установлен)
         ActivityInfo activityInfo =
                 openLinkIntent.resolveActivityInfo(getPackageManager(),
                         openLinkIntent.getFlags());
