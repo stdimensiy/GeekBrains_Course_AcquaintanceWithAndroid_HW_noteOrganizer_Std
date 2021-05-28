@@ -14,11 +14,31 @@
             android:id="@+id/edit_note_EditText_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="#FFFFFF"
+            android:background="#20565657"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <EditText
+            android:id="@+id/edit_note_EditText_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFCC"
+            android:gravity="clip_vertical"
+            android:inputType="textMultiLine"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@id/edit_note_btn_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_note_EditText_title" />
 
         <Button
             android:id="@+id/edit_note_btn_save"

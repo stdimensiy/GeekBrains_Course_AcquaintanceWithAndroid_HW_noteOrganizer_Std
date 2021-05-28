@@ -66,11 +66,30 @@ public class EditNoteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
+        EditText editContent = view.findViewById(R.id.edit_note_EditText_content);
         if (getArguments() != null) {
             editNote = getArguments().getParcelable("ARG_NOTE");
             editTitle.setText(editNote.getTitle());
+            editContent.setText(editNote.getContent());
         }
         editTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.validateInput(s.toString());
+            }
+        });
+
+        editContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -91,7 +110,7 @@ public class EditNoteFragment extends Fragment {
         buttonSave.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.saveNote(editTitle.getText(), editNote);
+                viewModel.saveNote(editTitle.getText(), editContent.getText(), editNote);
             }
         }));
 
