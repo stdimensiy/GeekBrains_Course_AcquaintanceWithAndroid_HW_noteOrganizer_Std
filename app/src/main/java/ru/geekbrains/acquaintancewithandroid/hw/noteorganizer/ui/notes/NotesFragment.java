@@ -2,6 +2,7 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -150,7 +153,7 @@ public class NotesFragment extends Fragment implements Pluggable {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notesViewModel.addNewNote(requireContext());
+                showDialogInputTitleNewNote();
             }
         });
     }
@@ -172,7 +175,7 @@ public class NotesFragment extends Fragment implements Pluggable {
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_note:
                 //Командуем добавить новую заметку
-                notesViewModel.addNewNote(requireContext());
+                notesViewModel.addNewNote(requireContext(), "", "");
                 break;
             case R.id.action_new_theme:
                 Pluggable.toastPlug(requireContext(), "Добавление новой темы");
@@ -185,7 +188,7 @@ public class NotesFragment extends Fragment implements Pluggable {
                 break;
             case R.id.action_clear_all_notes:
                 //Командуем очистить весь список полностью
-                notesViewModel.clearAllNotes();
+                showAlertDeleteAllNotes();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -204,6 +207,56 @@ public class NotesFragment extends Fragment implements Pluggable {
             notesViewModel.deleteItemPosition(adapter.getItemAtIndex(contextMenuItemPosition), contextMenuItemPosition);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void showAlertDeleteAllNotes() {
+        AlertDialog firstAlert = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.alert_title_warning)
+                .setMessage(R.string.notes_alert_delete_all_message)
+                .setIcon(R.drawable.ic_baseline_warning_24)
+                .setPositiveButton(R.string.text_answer_is_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notesViewModel.clearAllNotes();
+                    }
+                })
+                .setNegativeButton(R.string.text_answer_is_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // При отрицательном ответе выполнение метода удаления всех заметок ничего не делает
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        firstAlert.show();
+    }
+
+    private void showDialogInputTitleNewNote() {
+        View view = getLayoutInflater().inflate(R.layout.duble_edittext_dialog, null);
+        final EditText userInputTitle = (EditText) view.findViewById(R.id.dialog_new_title);
+        final EditText userInputContent = (EditText) view.findViewById(R.id.dialog_new_content);
+        AlertDialog inputTitle = new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.note_dialog_input_title_title)
+                .setView(view)
+                .setIcon(R.drawable.ic_baseline_input_24)
+                .setPositiveButton(R.string.task_dialog_create_new_btn_ok_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //notesViewModel.addNewNote(requireContext());
+                        //ViewModel.addNewTask(requireContext(), newTitleTask.getText().toString());
+                        //Toast.makeText(requireContext(), "Пользователь ввел: " + userInputTitle.getText() + " И контент : " + userInputContent.getText(), Toast.LENGTH_SHORT).show();
+                        notesViewModel.addNewNote(requireContext(), userInputTitle.getText().toString(), userInputContent.getText().toString());
+                    }
+                })
+                .setNeutralButton(R.string.dialog_cancel_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Toast.makeText(requireContext(), "Пользователь нажал отмену", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setCancelable(false)
+                .create();
+        inputTitle.show();
     }
 
     public interface OnNoteSelected {

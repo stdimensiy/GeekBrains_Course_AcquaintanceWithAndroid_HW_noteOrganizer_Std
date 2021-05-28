@@ -58,10 +58,10 @@ public class TasksViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public void addNewTask(Context context){
+    public void addNewTask(Context context, String newTitleTask){
         //СТАРТ показа прогресс-бара
         tasksProgressBarLiveData.setValue(true);
-        tasksRepository.addTask(context, new CallBack<Task>() {
+        tasksRepository.addTask(context, newTitleTask, new CallBack<Task>() {
             @Override
             public void onResult(Task value) {
                 newTaskAddedLiveData.postValue(value);

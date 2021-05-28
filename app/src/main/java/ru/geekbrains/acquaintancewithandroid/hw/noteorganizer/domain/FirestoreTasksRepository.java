@@ -69,10 +69,12 @@ public class FirestoreTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(Context context, CallBack<Task> taskCallBack) {
+    public void addTask(Context context, String newTitleTask, CallBack<Task> taskCallBack) {
         Map<String, Object> docData = new HashMap<>();
         Date baseCreateDate = new Date();
-        docData.put(FIELD_TITLE, context.getResources().getString(R.string.default_task_title));
+        if (newTitleTask.equals(""))
+            newTitleTask = context.getResources().getString(R.string.default_task_title);
+        docData.put(FIELD_TITLE, newTitleTask);
         docData.put(FIELD_CONTENT, context.getResources().getString(R.string.default_task_content));
         docData.put(FIELD_TYPE, context.getResources().getString(R.string.default_task_type));
         docData.put(FIELD_CREATEDATE, new Timestamp(baseCreateDate));
@@ -80,11 +82,12 @@ public class FirestoreTasksRepository implements TasksRepository {
         docData.put(FIELD_ALARMDATE, new Timestamp(baseCreateDate));
         docData.put(FIELD_DEADLINEDATE, new Timestamp(baseCreateDate));
         docData.put(FIELD_VIEW, context.getResources().getString(R.string.default_task_view));
+        String finalNewTitleTask = newTitleTask;
         db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.w(TAG, "Дефолтная заадача добавлена в базу данных");
-                Task task = new Task(context.getResources().getString(R.string.default_task_title), context.getResources().getString(R.string.default_task_content));
+                Task task = new Task(finalNewTitleTask, context.getResources().getString(R.string.default_task_content));
                 task.setId(documentReference.getId());
                 task.setCreateDate(baseCreateDate);
                 task.setUpdateDate(baseCreateDate);

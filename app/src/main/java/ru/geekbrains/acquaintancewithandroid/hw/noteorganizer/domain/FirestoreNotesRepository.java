@@ -66,20 +66,26 @@ public class FirestoreNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void addNewTestNote(Context context, CallBack<Note> noteCallBack) {
+    public void addNewTestNote(Context context, String newTitle, String newContent, CallBack<Note> noteCallBack) {
         Map<String, Object> docData = new HashMap<>();
         Date baseCreateDate = new Date();
-        docData.put(FIELD_TITLE, context.getResources().getString(R.string.default_note_title));
-        docData.put(FIELD_CONTENT, context.getResources().getString(R.string.default_note_content));
+        if (newTitle.equals(""))
+            newTitle = context.getResources().getString(R.string.default_note_title);
+        if (newContent.equals(""))
+            newContent = context.getResources().getString(R.string.default_note_content);
+        docData.put(FIELD_TITLE, newTitle);
+        docData.put(FIELD_CONTENT, newContent);
         docData.put(FIELD_TYPE, context.getResources().getString(R.string.default_note_type));
         docData.put(FIELD_CREATEDATE, new Timestamp(baseCreateDate));
         docData.put(FIELD_UPDATEDATE, new Timestamp(baseCreateDate));
         docData.put(FIELD_VIEW, context.getResources().getString(R.string.default_note_view));
+        String finalNewTitle = newTitle;
+        String finalNewContent = newContent;
         db.collection(COLLECTION).add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.w(TAG, "Пустая новая заметка добавлена в базу облако");
-                Note note = new Note(context.getResources().getString(R.string.default_note_title), context.getResources().getString(R.string.default_note_content));
+                Note note = new Note(finalNewTitle, finalNewContent);
                 note.setId(documentReference.getId());
                 note.setCreateDate(baseCreateDate);
                 note.setUpdateDate(note.getCreateDate());

@@ -54,13 +54,13 @@ public class TestNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void addNewTestNote(Context context, CallBack<Note> noteCallBack) {
+    public void addNewTestNote(Context context, String newTitle, String newContent, CallBack<Note> noteCallBack) {
         //notes.add(new Note(title, "Тело новой заметки."));
         executor.execute((new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(PAUSE /4);
+                    Thread.sleep(PAUSE / 4);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -82,7 +82,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(PAUSE /10);
+                    Thread.sleep(PAUSE / 10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -104,7 +104,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(PAUSE /2);
+                    Thread.sleep(PAUSE / 2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -125,7 +125,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(PAUSE /4);
+                    Thread.sleep(PAUSE / 4);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

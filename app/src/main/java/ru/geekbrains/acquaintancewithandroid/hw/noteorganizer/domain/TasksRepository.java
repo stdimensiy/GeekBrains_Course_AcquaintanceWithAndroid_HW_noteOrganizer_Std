@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface TasksRepository {
     void getTasks(CallBack<ArrayList<Task>> callBack);
 
-    void addTask(Context context, CallBack<Task> taskCallBack);
+    void addTask(Context context, String newTitleTask, CallBack<Task> taskCallBack);
 
     void deleteTask(Task task, CallBack<Task> taskCallBack);
 

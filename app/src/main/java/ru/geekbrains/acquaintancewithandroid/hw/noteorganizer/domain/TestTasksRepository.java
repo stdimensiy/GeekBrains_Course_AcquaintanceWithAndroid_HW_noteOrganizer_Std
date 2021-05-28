@@ -49,7 +49,7 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(Context context, CallBack<Task> taskCallBack) {
+    public void addTask(Context context, String newTaskTitle, CallBack<Task> taskCallBack) {
 
     }
 
