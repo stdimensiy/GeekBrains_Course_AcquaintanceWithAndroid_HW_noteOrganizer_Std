@@ -16,4 +16,6 @@
     <string name="nameMenuItem_authorized">Авторизация</string>
     <string name="menuItemOptional_calculator">Калькулятор</string>
     <string name="menuItemOptional_criticism">Отзывы</string>
+    <string name="edit_note_title">Редактирование заметки</string>
+    <string name="edit_note_btn_save_text">Сохранить изменения</string>
 </resources>

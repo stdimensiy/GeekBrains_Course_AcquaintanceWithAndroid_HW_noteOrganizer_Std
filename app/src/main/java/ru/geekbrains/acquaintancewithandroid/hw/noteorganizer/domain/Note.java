@@ -1,6 +1,9 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
-public class Note {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Note implements Parcelable {
     private String title;               //заголовок заметки
     private String content;             //содержимое заметки
     private long createDate;            //дата и время создания заметки
@@ -13,6 +16,25 @@ public class Note {
         this.title = title;
         this.content = content;
     }
+
+    protected Note(Parcel in) {
+        title = in.readString();
+        content = in.readString();
+        createDate = in.readLong();
+        marked = in.readByte() != 0;
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -44,5 +66,18 @@ public class Note {
 
     public void setMarked(boolean marked) {
         this.marked = marked;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(content);
+        dest.writeLong(createDate);
+        dest.writeByte((byte) (marked ? 1 : 0));
     }
 }

@@ -1,7 +1,11 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -22,11 +26,18 @@ import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.Pluggable;
 
 public class TasksFragment extends Fragment {
 
     private TasksViewModel tasksViewModel;
     private TasksAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         tasksViewModel = new ViewModelProvider(this, new TasksViewModelFactory()).get(TasksViewModel.class);
@@ -78,5 +89,36 @@ public class TasksFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.tasks_options_menu, menu);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // обработка нажатия конкретных пунктов меню.
+            // позиционирование происходит по идентификатору (наименование игнорируется и может быть
+            // любым и на любом языке)
+            // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
+            case R.id.action_new_task:
+                Pluggable.ToastPlug(requireContext(), "Добавление новой задачи");
+                break;
+            case R.id.action_new_type:
+                Pluggable.ToastPlug(requireContext(), "Добавление нового типа задачи");
+                break;
+            case R.id.action_settings:
+                Pluggable.ToastPlug(requireContext(), "Настройки задач");
+                break;
+            case R.id.action_help:
+                Pluggable.ToastPlug(requireContext(), "Инструкция для задач");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
