@@ -150,9 +150,7 @@ public class NotesFragment extends Fragment implements Pluggable {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Плавающая кнопка добавления новой замметки нажата!", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                notesViewModel.addNewNote();
+                notesViewModel.addNewNote(requireContext());
             }
         });
     }
@@ -174,16 +172,16 @@ public class NotesFragment extends Fragment implements Pluggable {
             // новые пункты именю или идентификаторы обработчики к ктороым не реализованы игнорируются.
             case R.id.action_new_note:
                 //Командуем добавить новую заметку
-                notesViewModel.addNewNote();
+                notesViewModel.addNewNote(requireContext());
                 break;
             case R.id.action_new_theme:
-                Pluggable.ToastPlug(requireContext(), "Добавление новой темы");
+                Pluggable.toastPlug(requireContext(), "Добавление новой темы");
                 break;
             case R.id.action_settings:
-                Pluggable.ToastPlug(requireContext(), "Настройки заметок");
+                Pluggable.toastPlug(requireContext(), "Настройки заметок");
                 break;
             case R.id.action_help:
-                Pluggable.ToastPlug(requireContext(), "Инструкция для заметок");
+                Pluggable.toastPlug(requireContext(), "Инструкция для заметок");
                 break;
             case R.id.action_clear_all_notes:
                 //Командуем очистить весь список полностью

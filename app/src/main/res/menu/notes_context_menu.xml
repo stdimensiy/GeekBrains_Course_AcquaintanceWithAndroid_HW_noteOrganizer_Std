@@ -4,6 +4,6 @@
     <item
         android:id="@+id/action_delete_note"
         android:orderInCategory="100"
-        android:title="Удалить заметку"
+        android:title="@string/context_menu_action_delete_note"
         app:showAsAction="never" />
 </menu>

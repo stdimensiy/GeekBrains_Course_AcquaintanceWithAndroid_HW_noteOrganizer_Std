@@ -1,6 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes;
 
-import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,15 @@ import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHolder> {
+    private final Fragment fragment;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("E, d MMM yyyy \n (HH:mm)");
     private ArrayList<Note> items = new ArrayList<>();
     private OnNoteClicked noteClicked;
+    private OnNoteLongClicked noteLongClicked;
+
+    public NotesAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     public OnNoteLongClicked getNoteLongClicked() {
         return noteLongClicked;
@@ -26,13 +33,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     public void setNoteLongClicked(OnNoteLongClicked noteLongClicked) {
         this.noteLongClicked = noteLongClicked;
-    }
-
-    private OnNoteLongClicked noteLongClicked;
-    private final Fragment fragment;
-
-    public NotesAdapter(Fragment fragment) {
-        this.fragment = fragment;
     }
 
     public OnNoteClicked getNoteClicked() {
@@ -76,7 +76,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public void onBindViewHolder(@NonNull NotesAdapter.NoteViewHolder holder, int position) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E, d MMM yyyy \n (HH:mm)");
         Note item = items.get(position);
         holder.getTitleNote().setText(item.getTitle());
         holder.getContentNote().setText(item.getContent());
@@ -98,7 +97,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     interface OnNoteLongClicked {
-        void onNoteLongClicked(View itemView, int position,  Note note);
+        void onNoteLongClicked(View itemView, int position, Note note);
     }
 
 
@@ -123,7 +122,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if(noteLongClicked != null) {
+                    if (noteLongClicked != null) {
                         noteLongClicked.onNoteLongClicked(itemView, getAdapterPosition(), items.get(getAdapterPosition()));
                     }
                     return false;

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.notes.edit.EditNoteFragment">
+    tools:context=".ui.tasks.edit.EditTaskFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/edit_note_EditText_title"
+            android:id="@+id/edit_task_EditText_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/background_edit_note_title"
+            android:background="@color/background_edit_task_title"
             android:paddingStart="@dimen/fullPadding"
             android:paddingTop="@dimen/fullPadding"
             android:paddingEnd="@dimen/fullPadding"
@@ -25,40 +25,42 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <EditText
-            android:id="@+id/edit_note_EditText_content"
+            android:id="@+id/edit_task_EditText_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/background_edit_note_content"
+            android:background="@color/background_edit_task_content"
             android:gravity="clip_vertical"
             android:inputType="textMultiLine"
             android:paddingStart="@dimen/fullPadding"
             android:paddingEnd="@dimen/fullPadding"
             android:paddingBottom="@dimen/fullPadding"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@id/edit_note_btn_save"
+            app:layout_constraintBottom_toTopOf="@id/edit_task_btn_save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_note_EditText_title" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_task_EditText_title" />
 
         <Button
-            android:id="@+id/edit_note_btn_save"
+            android:id="@+id/edit_task_btn_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/edit_note_btn_save_text"
+            android:text="@string/edit_task_btn_save_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
-            android:id="@+id/editNotesProgressBar"
+            android:id="@+id/editTaskProgressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/edit_note_btn_save"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintBottom_toBottomOf="parent"
+
+             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

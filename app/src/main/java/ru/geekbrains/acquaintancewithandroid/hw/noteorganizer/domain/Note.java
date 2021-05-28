@@ -6,11 +6,24 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class Note implements Parcelable {
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
     public String id;                   //уникальный идентификатор записи
     private String title;               //заголовок заметки
     private String content;             //содержимое заметки
     private Date createDate;            //дата и время создания заметки
     private Date updateDate;            //дата и время последнего редактирования заметки
+    private String elemType;            //тип, заметки в данном случае
+    private String elemView;            //вид заметки в данном случае
     private boolean marked;             //флаг состояния заметки (отмечена или не отмечена)
 
     public Note() {
@@ -25,20 +38,27 @@ public class Note implements Parcelable {
         id = in.readString();
         title = in.readString();
         content = in.readString();
+        elemType = in.readString();
+        elemView = in.readString();
+        createDate = new Date(in.readLong());
         marked = in.readByte() != 0;
     }
 
-    public static final Creator<Note> CREATOR = new Creator<Note>() {
-        @Override
-        public Note createFromParcel(Parcel in) {
-            return new Note(in);
-        }
+    public String getElemType() {
+        return elemType;
+    }
 
-        @Override
-        public Note[] newArray(int size) {
-            return new Note[size];
-        }
-    };
+    public void setElemType(String elemType) {
+        this.elemType = elemType;
+    }
+
+    public String getElemView() {
+        return elemView;
+    }
+
+    public void setElemView(String elemView) {
+        this.elemView = elemView;
+    }
 
     public String getTitle() {
         return title;
@@ -98,6 +118,9 @@ public class Note implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(content);
+        dest.writeString(elemType);
+        dest.writeString(elemView);
+        dest.writeLong(createDate.getTime());
         dest.writeByte((byte) (marked ? 1 : 0));
     }
 }

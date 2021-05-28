@@ -1,16 +1,15 @@
-package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks;
+package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.edit;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.FirestoreTasksRepository;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TestTasksRepository;
 
-public class TasksViewModelFactory implements ViewModelProvider.Factory {
+public class EditTaskViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new TasksViewModel(FirestoreTasksRepository.INSTANCE);
+        return (T) new EditTaskViewModel(FirestoreTasksRepository.INSTANCE);
     }
 }

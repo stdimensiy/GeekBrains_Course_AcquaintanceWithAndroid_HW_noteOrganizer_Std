@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -19,11 +20,11 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     private void firstIncrement(ArrayList<Task> tasks) {
-        tasks.add(new Task("Первая задача", "Описание первой задачи.", false, true));
-        tasks.add(new Task("Вторая задача", "", false, false));
-        tasks.add(new Task("Третья задача", "Описание третьей задачи.", true, true));
-        tasks.add(new Task("Четвертая задача", "", true, false));
-        tasks.add(new Task("Пятая задача", "Описание пятой задачи.", false, true));
+        tasks.add(new Task("Первая задача", "Описание первой задачи."));
+        tasks.add(new Task("Вторая задача", ""));
+        tasks.add(new Task("Третья задача", "Описание третьей задачи."));
+        tasks.add(new Task("Четвертая задача", ""));
+        tasks.add(new Task("Пятая задача", "Описание пятой задачи."));
     }
 
     @Override
@@ -48,12 +49,17 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     @Override
-    public void addTask(String title) {
-        tasks.add(new Task(title, "Описание новой задачи.", false, false));
+    public void addTask(Context context, CallBack<Task> taskCallBack) {
+
     }
 
     @Override
-    public void deleteTask(int index) {
-        tasks.remove(index);
+    public void deleteTask(Task task, CallBack<Task> taskCallBack) {
+
+    }
+
+    @Override
+    public void updateTask(Task task, CallBack<Object> objectCallBack) {
+
     }
 }

@@ -1,4 +1,4 @@
-package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit;
+package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.edit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,18 +20,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
 
-public class EditNoteFragment extends Fragment {
-    private Note editNote;
-    private EditNoteViewModel viewModel;
-    private OnNoteSaved listener;
+public class EditTaskFragment extends Fragment {
+    private Task editTask;
+    private EditTaskViewModel viewModel;
+    private OnTaskSaved listener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnNoteSaved) {
-            listener = (OnNoteSaved) context;
+        if (context instanceof OnTaskSaved) {
+            listener = (OnTaskSaved) context;
         }
     }
 
@@ -52,24 +52,25 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this, new EditNoteViewModelFactory()).get(EditNoteViewModel.class);
+        viewModel = new ViewModelProvider(this, new EditTaskViewModelFactory()).get(EditTaskViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_note, container, false);
+        return inflater.inflate(R.layout.fragment_edit_task, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
-        EditText editContent = view.findViewById(R.id.edit_note_EditText_content);
+
+        EditText editTitle = view.findViewById(R.id.edit_task_EditText_title);
+        EditText editContent = view.findViewById(R.id.edit_task_EditText_content);
         if (getArguments() != null) {
-            editNote = getArguments().getParcelable("ARG_NOTE");
-            editTitle.setText(editNote.getTitle());
-            editContent.setText(editNote.getContent());
+            editTask = getArguments().getParcelable("ARG_TASK");
+            editTitle.setText(editTask.getTitle());
+            editContent.setText(editTask.getContent());
         }
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -105,11 +106,11 @@ public class EditNoteFragment extends Fragment {
             }
         });
 
-        Button buttonSave = view.findViewById(R.id.edit_note_btn_save);
+        Button buttonSave = view.findViewById(R.id.edit_task_btn_save);
         buttonSave.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.saveNote(editTitle.getText(), editContent.getText(), editNote);
+                viewModel.saveTask(editTitle.getText(), editContent.getText(), editTask);
             }
         }));
 
@@ -122,7 +123,7 @@ public class EditNoteFragment extends Fragment {
         });
 
         //подписываем на событие Прогессбара
-        ProgressBar progressBar = view.findViewById(R.id.editNotesProgressBar);
+        ProgressBar progressBar = view.findViewById(R.id.editTaskProgressBar);
         viewModel.getProgressLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -140,13 +141,13 @@ public class EditNoteFragment extends Fragment {
             public void onChanged(Object o) {
                 // Сигнал об успешном сохранении данных
                 if (listener != null) {
-                    listener.onNoteSaved();
+                    listener.onTaskSaved();
                 }
             }
         });
     }
 
-    public interface OnNoteSaved {
-        void onNoteSaved();
+    public interface OnTaskSaved {
+        void onTaskSaved();
     }
 }

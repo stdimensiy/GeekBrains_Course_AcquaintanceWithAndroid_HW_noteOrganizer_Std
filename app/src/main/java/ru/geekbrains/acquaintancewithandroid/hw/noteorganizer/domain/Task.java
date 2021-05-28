@@ -1,25 +1,42 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import java.util.Date;
+
 public class Task extends Note {
-    private long alarmDate;        // дата и время напоминания
+    // поля объявленные в базовом классе Note
+//    public String id;                   //уникальный идентификатор записи
+//    private String title;               //заголовок заметки
+//    private String content;             //содержимое заметки
+//    private Date createDate;            //дата и время создания заметки
+//    private Date updateDate;            //дата и время последнего редактирования заметки
+//    private boolean marked;             //флаг состояния заметки (отмечена или не отмечена)
+
+    private Date alarmDate;        // дата и время напоминания
+    private Date deadlineDate;        // дата и время напоминания
     private boolean isChecked;     // состояние флажка задачи (отмечено или нет)
-    private boolean isHaveContent; // признак наличия в задаче не только наименования но и содержания.
 
     public Task() {
 
     }
 
-    public Task(String title, String content, boolean isChecked, boolean isHaveContent) {
+    public Task(String title, String content) {
         super(title, content);
-        this.isChecked = isChecked;
-        this.isHaveContent = isHaveContent;
+        this.isChecked = false;
     }
 
-    public long getAlarmDate() {
+    public Date getDeadlineDate() {
+        return deadlineDate;
+    }
+
+    public void setDeadlineDate(Date deadlineDate) {
+        this.deadlineDate = deadlineDate;
+    }
+
+    public Date getAlarmDate() {
         return alarmDate;
     }
 
-    public void setAlarmDate(long alarmDate) {
+    public void setAlarmDate(Date alarmDate) {
         this.alarmDate = alarmDate;
     }
 
@@ -29,13 +46,5 @@ public class Task extends Note {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
-    }
-
-    public boolean isHaveContent() {
-        return isHaveContent;
-    }
-
-    public void setHaveContent(boolean haveContent) {
-        isHaveContent = haveContent;
     }
 }

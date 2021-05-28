@@ -1,5 +1,7 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -57,10 +59,10 @@ public class NotesViewModel extends ViewModel {
         super.onCleared();
     }
 
-    public void addNewNote() {
+    public void addNewNote(Context context) {
         //СТАРТ показа прогресс-бара
         notesProgressBarLiveData.setValue(true);
-        notesRepository.addNewTestNote(new CallBack<Note>() {
+        notesRepository.addNewTestNote(context, new CallBack<Note>() {
             @Override
             public void onResult(Note value) {
                 newNoteAddedLiveData.postValue(value);

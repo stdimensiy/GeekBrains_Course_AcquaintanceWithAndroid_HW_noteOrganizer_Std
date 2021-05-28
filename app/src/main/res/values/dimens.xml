@@ -9,4 +9,11 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="noteCardElevation">4dp</dimen>
+    <dimen name="noteCard_maxElevation">6dp</dimen>
+    <dimen name="halfPadding">4dp</dimen>
+    <dimen name="fullPadding">8dp</dimen>
+    <dimen name="note_title_text_size">16sp</dimen>
+    <dimen name="note_context_text_size">16sp</dimen>
+    <dimen name="note_date_representation_string_text_size">10sp</dimen>
 </resources>

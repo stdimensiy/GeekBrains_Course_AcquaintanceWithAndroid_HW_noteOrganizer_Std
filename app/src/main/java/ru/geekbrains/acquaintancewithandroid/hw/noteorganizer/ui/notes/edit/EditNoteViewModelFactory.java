@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.FirestoreNotesRepository;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.TestNotesRepository;
 
 public class EditNoteViewModelFactory implements ViewModelProvider.Factory {
     @NonNull

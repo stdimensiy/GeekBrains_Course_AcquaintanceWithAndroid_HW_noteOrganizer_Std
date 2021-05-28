@@ -19,7 +19,11 @@
         android:id="@+id/navigation_tasks"
         android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.TasksFragment"
         android:label="@string/title_tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <action
+            android:id="@+id/action_navigation_tasks_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -37,5 +41,17 @@
         <argument
             android:name="note"
             app:argType="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.tasks.edit.EditTaskFragment"
+        android:label="Редактирование задачи"
+        tools:layout="@layout/fragment_edit_task" >
+        <action
+            android:id="@+id/action_editTaskFragment_to_navigation_tasks"
+            app:destination="@id/navigation_tasks" />
+        <argument
+            android:name="task"
+            app:argType="ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task" />
     </fragment>
 </navigation>
