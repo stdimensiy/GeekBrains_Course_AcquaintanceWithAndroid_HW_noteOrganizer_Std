@@ -1,10 +1,18 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class TestTasksRepository implements TasksRepository {
     public static final TestTasksRepository INSTANCE = new TestTasksRepository();
-    ArrayList<Task> tasks = new ArrayList<>();
+    private static final int pause = 2000; // временная пауза в миллисекундах
+    private final Executor executor = Executors.newCachedThreadPool();
+    private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     private TestTasksRepository() {
         firstIncrement(tasks);
@@ -19,8 +27,24 @@ public class TestTasksRepository implements TasksRepository {
     }
 
     @Override
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public void getTasks(CallBack<ArrayList<Task>> callBack) {
+        //создаю временную задержку (для теста) на базе потока
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(pause);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mainThreadHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onResult(tasks);
+                    }
+                });
+            }
+        });
     }
 
     @Override
