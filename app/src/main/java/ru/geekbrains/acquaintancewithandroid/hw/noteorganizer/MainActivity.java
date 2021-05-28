@@ -2,15 +2,11 @@ package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -45,39 +41,34 @@ public class MainActivity extends AppCompatActivity implements NotesFragment.OnN
         NavigationUI.setupWithNavController(navigationView, navController);
         //Для нижнего меню
         BottomNavigationView navView = findViewById(R.id.nav_view_bottom);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_notes, R.id.navigation_tasks, R.id.navigation_settings)
-                .build();
-        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuCompat.setGroupDividerEnabled(menu, true);
         getMenuInflater().inflate(R.menu.notes_options_menu, menu);
         return true;
     }
 
+    // фрагмент отвечает за поведение верхнего навигационного меню и конкретно гамбургера
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
     @Override
     public void onNoteSelected(Note note) {
-       FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.nav_host_fragment, EditNoteFragment.newInstance(note), EditNoteFragment.TAG);
-//        fragmentTransaction.commit();
-        Fragment oldFragment = fragmentManager.findFragmentByTag(NotesFragment.TAG);
-        getSupportFragmentManager()
-                .beginTransaction().addToBackStack("Old")
-                .replace(R.id.nav_host_fragment, EditNoteFragment.newInstance(note), EditNoteFragment.TAG)
-                .addToBackStack(EditNoteFragment.TAG)
-                .commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("ARG_NOTE", note);
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.EditNoteFragment, bundle);
         //Toast.makeText(this, fragmentManager.getFragments().toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNoteSaved() {
-        getSupportFragmentManager().popBackStack();
+        Navigation.findNavController(this, R.id.nav_host_fragment).popBackStack();
     }
 }

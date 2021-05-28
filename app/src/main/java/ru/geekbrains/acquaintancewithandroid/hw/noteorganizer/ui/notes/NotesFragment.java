@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.Pluggable;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Pluggable;
 
 public class NotesFragment extends Fragment implements Pluggable {
     public static final String TAG = "NOTES_LIST";

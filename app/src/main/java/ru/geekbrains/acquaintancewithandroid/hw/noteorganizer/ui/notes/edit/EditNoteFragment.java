@@ -1,5 +1,6 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.notes.edit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,13 +8,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,25 +23,14 @@ import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Note;
 
 public class EditNoteFragment extends Fragment {
-    public static final String TAG = "EditNoteFragment";
-    public static final String ARG_NOTE = "ARG_NOTE";
-    private Note note;
+    private Note editNote;
     private EditNoteViewModel viewModel;
     private OnNoteSaved listener;
-
-    public static EditNoteFragment newInstance(Note note) {
-        EditNoteFragment fragment = new EditNoteFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ARG_NOTE, note);
-
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof OnNoteSaved){
+        if (context instanceof OnNoteSaved) {
             listener = (OnNoteSaved) context;
         }
     }
@@ -49,12 +39,19 @@ public class EditNoteFragment extends Fragment {
     public void onDetach() {
         listener = null;
         super.onDetach();
+        // реализация принудительного сокрытия экранной клавиатуры по завершении редактирования заметки
+        Activity activity = getActivity();
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        note = getArguments().getParcelable(ARG_NOTE);
         viewModel = new ViewModelProvider(this, new EditNoteViewModelFactory()).get(EditNoteViewModel.class);
     }
 
@@ -67,22 +64,12 @@ public class EditNoteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toolbar toolbar = view.findViewById(R.id.toolbarEditNote);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed(); // по кнопке "назад" быстрый выход из режима редактирования без сохранения
-            }
-        });
-        Button buttonSave = view.findViewById(R.id.edit_note_btn_save);
-        EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
-        buttonSave.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.saveNote(editTitle.getText(), note);
-            }
-        }));
 
+        EditText editTitle = view.findViewById(R.id.edit_note_EditText_title);
+        if (getArguments() != null) {
+            editNote = getArguments().getParcelable("ARG_NOTE");
+            editTitle.setText(editNote.getTitle());
+        }
         editTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,10 +87,16 @@ public class EditNoteFragment extends Fragment {
             }
         });
 
-        editTitle.setText(note.getTitle()); // заполняем поле заголовка заметки текущим значением заголовка заметки
+        Button buttonSave = view.findViewById(R.id.edit_note_btn_save);
+        buttonSave.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.saveNote(editTitle.getText(), editNote);
+            }
+        }));
 
         //подписываем на событие "сохранение разрешено"
-        viewModel.getSaveEnabled().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        viewModel.getSaveEnabledLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 buttonSave.setEnabled(aBoolean);
@@ -112,7 +105,7 @@ public class EditNoteFragment extends Fragment {
 
         //подписываем на событие Прогессбара
         ProgressBar progressBar = view.findViewById(R.id.editNotesProgressBar);
-        viewModel.getProgress().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        viewModel.getProgressLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
@@ -123,11 +116,12 @@ public class EditNoteFragment extends Fragment {
             }
         });
 
-        viewModel.getSaveSucceed().observe(getViewLifecycleOwner(), new Observer<Object>() {
+        //подписываем на сигнал об успешном сохранении
+        viewModel.getSaveSucceedLiveData().observe(getViewLifecycleOwner(), new Observer<Object>() {
             @Override
             public void onChanged(Object o) {
                 // Сигнал об успешном сохранении данных
-                if (listener != null){
+                if (listener != null) {
                     listener.onNoteSaved();
                 }
             }

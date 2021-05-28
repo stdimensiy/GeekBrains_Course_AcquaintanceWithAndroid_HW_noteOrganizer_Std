@@ -9,10 +9,10 @@ import java.util.concurrent.Executors;
 
 public class TestNotesRepository implements NotesRepository {
     public static final TestNotesRepository INSTANCE = new TestNotesRepository();
-    private static final int pause = 2000; // временная пауза в миллисекундах
+    private static final int PAUSE = 2000; // временная пауза в миллисекундах
     private final Executor executor = Executors.newCachedThreadPool();
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-    private ArrayList<Note> notes = new ArrayList<>();
+    private final ArrayList<Note> notes = new ArrayList<>();
 
     private TestNotesRepository() {
         firstIncrement(notes);
@@ -38,7 +38,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(pause);
+                    Thread.sleep(PAUSE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -59,7 +59,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(pause/4);
+                    Thread.sleep(PAUSE /4);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -81,7 +81,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(pause/10);
+                    Thread.sleep(PAUSE /10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -103,7 +103,7 @@ public class TestNotesRepository implements NotesRepository {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(pause/2);
+                    Thread.sleep(PAUSE /2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -120,25 +120,24 @@ public class TestNotesRepository implements NotesRepository {
 
     @Override
     public void updateNote(Note note, CallBack<Object> objectCallBack) {
-        //notes.add(new Note(title, "Тело новой заметки."));
         executor.execute((new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(pause/4);
+                    Thread.sleep(PAUSE /4);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 mainThreadHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Note note = new Note("тестовый заголовок", "Тело новой тестовой заметки.");
-                        notes.add(note);
+                        //модуль подстановки новых значений
+                        Note editNote = notes.get(notes.indexOf(note));
+                        note.setTitle(editNote.getTitle());
                         objectCallBack.onResult(new Object());
                     }
                 });
             }
         }));
     }
-
 }

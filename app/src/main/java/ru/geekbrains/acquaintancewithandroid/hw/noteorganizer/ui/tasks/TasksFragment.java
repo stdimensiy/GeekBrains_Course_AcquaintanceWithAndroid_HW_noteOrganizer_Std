@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Task;
-import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.ui.Pluggable;
+import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain.Pluggable;
 
 public class TasksFragment extends Fragment {
 
