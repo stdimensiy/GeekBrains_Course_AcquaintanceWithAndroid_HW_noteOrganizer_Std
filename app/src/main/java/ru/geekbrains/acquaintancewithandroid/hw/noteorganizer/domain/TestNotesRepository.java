@@ -7,7 +7,7 @@ public class TestNotesRepository implements NotesRepository {
 
     ArrayList<Note> notes = new ArrayList<>();
 
-    private TestNotesRepository(){
+    private TestNotesRepository() {
         firstIncrement(notes);
     }
 

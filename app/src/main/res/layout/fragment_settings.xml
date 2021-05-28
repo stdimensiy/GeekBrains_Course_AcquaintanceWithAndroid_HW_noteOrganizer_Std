@@ -6,17 +6,204 @@
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
-        android:id="@+id/text_settings"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_viewTitleSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardCornerRadius="4dp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageViewLogoApp"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_notes_black_24dp"
+                app:layout_constraintBottom_toTopOf="@id/textViewNameApp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNameApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note ORGANIZER"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/teal_700"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textViewVersionApp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewLogoApp" />
+
+            <TextView
+                android:id="@+id/textViewVersionApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.1.2"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/teal_700"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNameApp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_viewSetThemes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        app:cardCornerRadius="4dp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_viewTitleSettings">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/whiteTheme" />
+
+            <Button
+                android:id="@+id/button2"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nightTheme" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_viewSetSynchronised"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        app:cardCornerRadius="4dp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_viewSetThemes">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:id="@+id/textViewTitleSynchronised"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Синхронизация данных с сервером (включена)"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/teal_700"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/textViewStatusSynchronised"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonSynchroStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewStatusSynchronised"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="данные не синхронизированы"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/teal_700"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textViewTitleSynchronised"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTitleSynchronised" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSynchroStart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imageButtonSynchroON"
+                app:layout_constraintStart_toEndOf="@id/textViewTitleSynchronised"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_notes_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSynchroON"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageButtonSynchroStart"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_notes_black_24dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_viewQuickServices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        app:cardCornerRadius="4dp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_viewSetSynchronised">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:id="@+id/textViewTitleQuickServices"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Управление данными (быстрые сервисы)"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/teal_700"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_notes"
+            android:icon="@drawable/ic_notes_black_24dp"
+            android:title="@string/title_notes" />
+
+        <item
+            android:id="@+id/navigation_tasks"
+            android:icon="@drawable/ic_tasks_black_24dp"
+            android:title="@string/title_tasks" />
+
+        <item
+            android:id="@+id/navigation_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/title_settings" />
+    </group>
+
+    <item android:title="@string/groupName_optional">
+        <menu>
+            <item
+                android:id="@+id/nav_accaunt"
+                android:icon="@drawable/ic_manage_account_black_24dp"
+                android:title="@string/nameMenuItem_accaunt" />
+            <item
+                android:id="@+id/nav_authorized"
+                android:icon="@drawable/ic_auth_black_24dp"
+                android:title="@string/nameMenuItem_authorized" />
+            <item
+                android:id="@+id/nav_openСalculate"
+                android:icon="@drawable/ic_calculate_black_24dp"
+                android:title="@string/menuItemOptional_calculator" />
+            <item
+                android:id="@+id/nav_criticism"
+                android:icon="@drawable/ic_add_critic_note_black_24dp"
+                android:title="@string/menuItemOptional_criticism" />
+        </menu>
+    </item>
+</menu>

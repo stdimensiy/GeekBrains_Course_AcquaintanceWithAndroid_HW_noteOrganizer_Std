@@ -1,13 +1,11 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
-import java.util.Calendar;
-
 public class Task extends Note {
     private long alarmDate;        // дата и время напоминания
     private boolean isChecked;     // состояние флажка задачи (отмечено или нет)
     private boolean isHaveContent; // признак наличия в задаче не только наименования но и содержания.
 
-    public Task(){
+    public Task() {
 
     }
 
@@ -20,6 +18,7 @@ public class Task extends Note {
     public long getAlarmDate() {
         return alarmDate;
     }
+
     public void setAlarmDate(long alarmDate) {
         this.alarmDate = alarmDate;
     }
