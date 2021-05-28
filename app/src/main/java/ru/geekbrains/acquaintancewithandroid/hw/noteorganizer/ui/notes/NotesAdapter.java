@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.R;
@@ -75,8 +76,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     @Override
     public void onBindViewHolder(@NonNull NotesAdapter.NoteViewHolder holder, int position) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, d MMM yyyy \n (HH:mm)");
         Note item = items.get(position);
         holder.getTitleNote().setText(item.getTitle());
+        holder.getContentNote().setText(item.getContent());
+        //dateFormat.format(item.getCreateDate())
+        holder.getDateNote().setText(dateFormat.format(item.getCreateDate()));
     }
 
     @Override
@@ -99,9 +104,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
     public class NoteViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleNote;
+        private final TextView contentNote;
+        private final TextView dateNote;
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             titleNote = itemView.findViewById(R.id.textView);
+            contentNote = itemView.findViewById(R.id.textView_contentNote);
+            dateNote = itemView.findViewById(R.id.textView_dateNote);
             fragment.registerForContextMenu(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,6 +132,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         }
         public TextView getTitleNote() {
             return titleNote;
+        }
+
+        public TextView getContentNote() {
+            return contentNote;
+        }
+
+        public TextView getDateNote() {
+            return dateNote;
         }
     }
 }

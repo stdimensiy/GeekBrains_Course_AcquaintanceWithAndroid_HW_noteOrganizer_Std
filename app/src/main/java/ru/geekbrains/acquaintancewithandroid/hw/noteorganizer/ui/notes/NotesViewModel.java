@@ -73,10 +73,13 @@ public class NotesViewModel extends ViewModel {
     public void clearAllNotes() {
         //СТАРТ показа прогресс-бара
         notesProgressBarLiveData.setValue(true);
-        notesRepository.clearAllNotes(new CallBack<Object>() {
+        notesRepository.getNotes(new CallBack<ArrayList<Note>>() {
             @Override
-            public void onResult(Object value) {
-                notesLiveData.postValue(new ArrayList<>());
+            public void onResult(ArrayList<Note> value) {
+                for (Note delNote :
+                        value) {
+                    deleteItemPosition(delNote, 0);
+                }
                 //СТОП показа прогресс-бара
                 notesProgressBarLiveData.setValue(false);
             }
@@ -94,7 +97,5 @@ public class NotesViewModel extends ViewModel {
                 notesProgressBarLiveData.setValue(false);
             }
         });
-
-        //deleteNotePositionLiveData.setValue(contextMenuItemPosition);
     }
 }
