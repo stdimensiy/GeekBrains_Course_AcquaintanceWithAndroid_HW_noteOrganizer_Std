@@ -1,11 +1,9 @@
 package ru.geekbrains.acquaintancewithandroid.hw.noteorganizer.domain;
 
-import java.util.Calendar;
-
 public class Note {
     private String title;               //заголовок заметки
     private String content;             //содержимое заметки
-    private Calendar createDate;        //дата и время создания заметки
+    private long createDate;            //дата и время создания заметки
     private boolean marked;             //флаг состояния заметки (отмечена или не отмечена)
 
     public Note() {
@@ -32,11 +30,11 @@ public class Note {
         this.content = content;
     }
 
-    public Calendar getCreateDate() {
+    public long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Calendar createDate) {
+    public void setCreateDate(long createDate) {
         this.createDate = createDate;
     }
 
